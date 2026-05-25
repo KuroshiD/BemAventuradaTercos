@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bem Aventurada — Finalizar Pedido</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      height: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Jost', system-ui, sans-serif;
+      background-color: #f5f2ed;
+      color: #1c1c1e;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img,
+    picture,
+    video,
+    canvas,
+    svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    input,
+    button,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      overflow-wrap: break-word;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    ::selection {
+      background-color: rgba(184, 151, 58, .25);
+      color: #1a2557;
+    }
+
+    :focus-visible {
+      outline: 2px solid #b8973a;
+      outline-offset: 3px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #e8e3db;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(184, 151, 58, .45);
+      border-radius: 9999px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #b8973a;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.55;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(184, 151, 58, .06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 90%, rgba(26, 37, 87, .05) 0%, transparent 60%);
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(245, 242, 237, .92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(184, 151, 58, .20);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      height: 68px;
+    }
+
+    .brand {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.45rem;
+      font-weight: 500;
+      color: #1a2557;
+      letter-spacing: .02em;
+      line-height: 1.15;
+      flex-shrink: 0;
+    }
+
+    .brand span {
+      display: block;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.1rem;
+      color: #b8973a;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      margin-left: auto;
+    }
+
+    .nav-links a {
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #7a7069;
+      transition: color .25s ease;
+    }
+
+    .nav-links a:hover {
+      color: #1a2557;
+    }
+
+    .nav-links a.active {
+      color: #1a2557;
+      border-bottom: 2px solid #1a2557;
+      padding-bottom: 2px;
+    }
+
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 52px 40px 80px;
+    }
+
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .form-section {}
+
+    .section-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 500;
+      color: #1a2557;
+      margin-bottom: 24px;
+    }
+
+    .field-group {
+      margin-bottom: 28px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #1a2557;
+      margin-bottom: 10px;
+    }
+
+    .field-label .required {
+      color: #b8973a;
+    }
+
+    .field-input {
+      width: 100%;
+      background: rgba(255, 255, 255, .65);
+      border: 1.5px solid rgba(184, 151, 58, .22);
+      border-radius: 14px;
+      padding: 16px 20px 16px 52px;
+      font-size: .95rem;
+      color: #1c1c1e;
+      transition: border-color .25s ease, box-shadow .25s ease;
+      outline: none;
+      position: relative;
+    }
+
+    .field-input::placeholder {
+      color: #b0a898;
+    }
+
+    .field-input:focus {
+      border-color: rgba(184, 151, 58, .55);
+      box-shadow: 0 0 0 3px rgba(184, 151, 58, .10);
+    }
+
+    .field-input.error {
+      border-color: rgba(180, 60, 60, .5);
+      box-shadow: 0 0 0 3px rgba(180, 60, 60, .08);
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 17px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #b8973a;
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+    }
+
+    .field-textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, .65);
+      border: 1.5px solid rgba(184, 151, 58, .22);
+      border-radius: 14px;
+      padding: 18px 20px;
+      font-size: .95rem;
+      color: #1c1c1e;
+      min-height: 160px;
+      resize: vertical;
+      transition: border-color .25s ease, box-shadow .25s ease;
+      outline: none;
+    }
+
+    .field-textarea::placeholder {
+      color: #b0a898;
+    }
+
+    .field-textarea:focus {
+      border-color: rgba(184, 151, 58, .55);
+      box-shadow: 0 0 0 3px rgba(184, 151, 58, .10);
+    }
+
+    .error-msg {
+      display: none;
+      font-size: .75rem;
+      color: #b44040;
+      margin-top: 6px;
+      padding-left: 4px;
+      letter-spacing: .02em;
+    }
+
+    .error-msg.visible {
+      display: block;
+    }
+
+    .order-card {
+      background: rgba(255, 255, 255, .72);
+      border: 1px solid rgba(184, 151, 58, .18);
+      border-radius: 20px;
+      padding: 32px 28px 28px;
+      position: sticky;
+      top: 88px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 40px rgba(26, 37, 87, .07), 0 2px 8px rgba(0, 0, 0, .04);
+      animation: fadeUp .5s ease both;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.65rem;
+      font-weight: 500;
+      color: #1a2557;
+      line-height: 1.2;
+    }
+
+    .card-ornament {
+      font-size: 1.5rem;
+      opacity: .7;
+      margin-top: -4px;
+    }
+
+    .card-divider {
+      height: 2px;
+      background: linear-gradient(to right, #b8973a 0%, rgba(184, 151, 58, .15) 100%);
+      border: none;
+      margin: 16px 0 20px;
+      border-radius: 1px;
+    }
+
+    .order-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .order-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(184, 151, 58, .12);
+      animation: fadeUp .4s ease both;
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+    }
+
+    .item-swatch {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 2px solid rgba(255, 255, 255, .8);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-name {
+      font-size: .92rem;
+      font-weight: 500;
+      color: #1a2557;
+      line-height: 1.3;
+    }
+
+    .item-category {
+      font-size: .72rem;
+      color: #9a8e80;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .item-price {
+      font-size: .95rem;
+      font-weight: 600;
+      color: #1a2557;
+      white-space: nowrap;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 24px 0;
+      color: #b0a898;
+      font-style: italic;
+      font-size: .9rem;
+    }
+
+    /* Total */
+    .total-divider {
+      border: none;
+      border-top: 1.5px dashed rgba(184, 151, 58, .35);
+      margin: 20px 0 16px;
+    }
+
+    .total-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .total-label {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #9a8e80;
+    }
+
+    .total-value {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2.6rem;
+      font-weight: 500;
+      color: #1a2557;
+      line-height: 1;
+      transition: color .3s ease;
+    }
+
+    .btn-order {
+      margin-top: 20px;
+      width: 100%;
+      background: #1a2557;
+      color: #fff;
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background .25s ease, transform .2s ease, box-shadow .25s ease;
+      box-shadow: 0 4px 16px rgba(26, 37, 87, .25);
+    }
+
+    .btn-order:hover {
+      background: #222f6a;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(26, 37, 87, .32);
+    }
+
+    .btn-order:active {
+      transform: translateY(0);
+    }
+
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+      opacity: .85;
+    }
+
+    /* Security note */
+    .security-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 12px;
+      font-size: .72rem;
+      color: #9a8e80;
+      letter-spacing: .03em;
+    }
+
+    .lock-icon {
+      width: 12px;
+      height: 12px;
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid rgba(184, 151, 58, .18);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: .82rem;
+      color: #9a8e80;
+      letter-spacing: .04em;
+    }
+
+    .footer-icon {
+      font-size: 1rem;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .page-wrapper {
+      animation: fadeUp .5s ease both;
+    }
+
+    @media (max-width: 860px) {
+      nav {
+        padding: 0 20px;
+        gap: 16px;
+      }
+
+      .brand {
+        font-size: 1.2rem;
+      }
+
+      .brand span {
+        font-size: .95rem;
+      }
+
+      .nav-links {
+        gap: 16px;
+      }
+
+      .nav-links a {
+        font-size: .68rem;
+      }
+
+      .page-wrapper {
+        padding: 32px 20px 60px;
+      }
+
+      .checkout-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .order-card {
+        position: static;
+      }
+    }
+
+    .alert-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(26, 37, 87, .18);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .alert-overlay.visible {
+      display: flex;
+    }
+
+    .alert-box {
+      background: #f5f2ed;
+      border: 1px solid rgba(184, 151, 58, .3);
+      border-radius: 20px;
+      padding: 36px 32px 28px;
+      max-width: 380px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .15);
+      text-align: center;
+      animation: fadeUp .3s ease both;
+    }
+
+    .alert-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .alert-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.4rem;
+      color: #1a2557;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .alert-msg {
+      font-size: .88rem;
+      color: #7a7069;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .alert-btn {
+      background: #1a2557;
+      color: #fff;
+      border-radius: 10px;
+      padding: 12px 32px;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      transition: background .2s;
+    }
+
+    .alert-btn:hover {
+      background: #222f6a;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="alert-overlay" id="alertOverlay">
+    <div class="alert-box">
+      <div class="alert-icon">🙏</div>
+      <div class="alert-title">Campos obrigatórios</div>
+      <div class="alert-msg" id="alertMsg">Por favor, preencha todos os campos obrigatórios para continuar.</div>
+      <button class="alert-btn" onclick="closeAlert()">Entendido</button>
+    </div>
+  </div>
+
+  <nav>
+    <div class="brand">Bem<span>Aventurada</span></div>
+    <ul class="nav-links">
+      <li><a href="/">Início</a></li>
+      <li><a href="/galeria">Galeria</a></li>
+      <li><a href="/terco/criar" class="active">Monte seu Terço</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="checkout-grid">
+
+      <div class="form-section">
+        <h1 class="section-title">Finalizar Pedido</h1>
+
+        <div class="field-group">
+          <label class="field-label" for="obs">Observação:</label>
+          <textarea class="field-textarea" id="obs" placeholder="Escreva aqui..."></textarea>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="nome">Nome<span class="required">*</span></label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            </svg>
+            <input class="field-input" type="text" id="nome" placeholder="Digite seu nome" autocomplete="name" />
+          </div>
+          <div class="error-msg" id="nomeError">Por favor, informe seu nome.</div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="telefone">Telefone (WhatsApp)<span class="required">*</span></label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path
+                d="M21 15.46l-5.27-.61-2.52 2.52a15.045 15.045 0 01-6.59-6.59l2.53-2.53L8.54 3H3.03C2.45 13.18 10.82 21.55 21 20.97v-5.51z" />
+            </svg>
+            <input class="field-input" type="tel" id="telefone" placeholder="(00) 00000-0000" autocomplete="tel" />
+          </div>
+          <div class="error-msg" id="telefoneError">Por favor, informe seu telefone.</div>
+        </div>
+      </div>
+
+      <div class="order-card">
+        <div class="card-header">
+          <h2 class="card-title">Detalhes do pedido</h2>
+          <span class="card-ornament">📿</span>
+        </div>
+        <hr class="card-divider" />
+
+        <div class="order-items" id="orderItems">
+          <div class="empty-state">Nenhum item selecionado.</div>
+        </div>
+
+        <hr class="total-divider" />
+
+        <div class="total-row">
+          <span class="total-label">Valor Total</span>
+          <span class="total-value" id="totalDisplay">R$ 0,00</span>
+        </div>
+
+        <button class="btn-order" id="btnOrder" onclick="handleOrder()">
+          Enviar Pedido
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+        </button>
+
+        <div class="security-note">
+          <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0110 0v4" />
+          </svg>
+          Seus dados estão seguros conosco.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-icon">🤍</span>
+    Obrigada por escolher a Bem Aventurada!
+    <span class="footer-icon">🙏</span>
+  </footer>
+
+  <script>
+    const catalog = {
+      micancas: [
+        { id: 'm1', name: 'Cristal Azul', material: 'Cristal', price: 5, color: '#1e2d8a', shine: true },
+        { id: 'm2', name: 'Madeira de Oliveira', material: 'Madeira', price: 4, color: '#8b6f5c', shine: false },
+        { id: 'm3', name: 'Pérola Branca', material: 'Pérola', price: 8, color: '#f0ede6', shine: true },
+        { id: 'm4', name: 'Quartzo Rosa', material: 'Quartzo', price: 7, color: '#f0b8c4', shine: true },
+        { id: 'm5', name: 'Ônix Negro', material: 'Pedra', price: 6, color: '#1c1c1e', shine: true },
+        { id: 'm6', name: 'Ágata Vermelha', material: 'Pedra', price: 6, color: '#8b1e1e', shine: true },
+        { id: 'm7', name: 'Jade Verde', material: 'Pedra', price: 9, color: '#3a7a48', shine: true },
+        { id: 'm8', name: 'Âmbar Dourado', material: 'Resina', price: 7, color: '#b87d2a', shine: true },
+      ],
+      passantes: [
+        { id: 'p1', name: 'Prata 925', material: 'Prata', price: 12, color: '#c0c0c0', shine: true },
+        { id: 'p2', name: 'Ouro Velho', material: 'Metal', price: 15, color: '#b8973a', shine: true },
+        { id: 'p3', name: 'Bronze Rústico', material: 'Bronze', price: 8, color: '#7d5a3c', shine: false },
+        { id: 'p4', name: 'Aço Inox', material: 'Metal', price: 6, color: '#adb5bd', shine: true },
+      ],
+      entremeios: [
+        { id: 'e1', name: 'Flor de Lis', material: 'Metal', price: 10, color: '#b8973a', shine: true },
+        { id: 'e2', name: 'Coração', material: 'Pedra', price: 8, color: '#c0392b', shine: true },
+        { id: 'e3', name: 'Trevo', material: 'Resina', price: 7, color: '#2e7d32', shine: true },
+        { id: 'e4', name: 'Peixe Ichthys', material: 'Metal', price: 9, color: '#adb5bd', shine: true },
+      ],
+      crucifixos: [
+        { id: 'c1', name: 'Crucifixo Prata', material: 'Prata', price: 25, color: '#c0c0c0', shine: true },
+        { id: 'c2', name: 'Crucifixo Ouro', material: 'Metal', price: 32, color: '#b8973a', shine: true },
+        { id: 'c3', name: 'Crucifixo Madeira', material: 'Madeira', price: 18, color: '#6d4c41', shine: false },
+        { id: 'c4', name: 'Crucifixo Bronze', material: 'Bronze', price: 22, color: '#7d5a3c', shine: false },
+      ]
+    };
+
+    let selected = {};
+    try {
+      const saved = sessionStorage.getItem('bemAventurada_selected');
+      if (saved) selected = JSON.parse(saved);
+    } catch (e) { }
+
+    /* ── UTILITÁRIOS DE COR ────────────────────────────────── */
+    const hexToRgb = (hex) => {
+      const h = hex.replace('#', '');
+      return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+    };
+    const lighten = (hex, p) => { const [r, g, b] = hexToRgb(hex); return `rgb(${Math.min(255, r + p)},${Math.min(255, g + p)},${Math.min(255, b + p)})`; };
+    const darken = (hex, p) => { const [r, g, b] = hexToRgb(hex); return `rgb(${Math.max(0, r - p)},${Math.max(0, g - p)},${Math.max(0, b - p)})`; };
+
+    const buildSwatchGradient = (item) => {
+      if (item.shine) return `radial-gradient(circle at 35% 30%, ${lighten(item.color, 60)} 0%, ${item.color} 45%, ${darken(item.color, 30)} 100%)`;
+      return `radial-gradient(circle at 35% 30%, ${lighten(item.color, 20)} 0%, ${item.color} 60%, ${darken(item.color, 20)} 100%)`;
+    };
+
+    /* ── CATEGORIAS LABEL ──────────────────────────────────── */
+    const categoryLabel = {
+      micancas: 'Miçanga',
+      passantes: 'Passante',
+      entremeios: 'Entremeio',
+      crucifixos: 'Crucifixo'
+    };
+
+    /* ── RENDER ORDER ITEMS ────────────────────────────────── */
+    const renderOrder = () => {
+      const container = document.getElementById('orderItems');
+      const entries = Object.entries(selected);
+
+      if (!entries.length) {
+        container.innerHTML = `<div class="empty-state">Nenhum item selecionado.</div>`;
+        document.getElementById('totalDisplay').textContent = 'R$ 0,00';
+        return;
+      }
+
+      container.innerHTML = entries.map(([cat, item]) => `
+        <div class="order-item">
+          <div class="item-swatch" style="background:${buildSwatchGradient(item)}"></div>
+          <div class="item-info">
+            <div class="item-name">${item.name}</div>
+            <div class="item-category">${categoryLabel[cat] ?? cat}</div>
+          </div>
+          <div class="item-price">R$ ${item.price.toFixed(2).replace('.', ',')}</div>
+        </div>
+      `).join('');
+
+      const total = entries.reduce((sum, [, item]) => sum + item.price, 0);
+      document.getElementById('totalDisplay').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    };
+
+    /* ── ALERT ─────────────────────────────────────────────── */
+    const showAlert = (msg) => {
+      document.getElementById('alertMsg').textContent = msg;
+      document.getElementById('alertOverlay').classList.add('visible');
+    };
+    const closeAlert = () => {
+      document.getElementById('alertOverlay').classList.remove('visible');
+    };
+
+    /* ── VALIDATE + SUBMIT ─────────────────────────────────── */
+    const handleOrder = () => {
+      const nome = document.getElementById('nome').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const nomeErr = document.getElementById('nomeError');
+      const telErr = document.getElementById('telefoneError');
+      const nomeInp = document.getElementById('nome');
+      const telInp = document.getElementById('telefone');
+
+      // Reset errors
+      nomeErr.classList.remove('visible');
+      telErr.classList.remove('visible');
+      nomeInp.classList.remove('error');
+      telInp.classList.remove('error');
+
+      let valid = true;
+      let alertMsg = '';
+
+      if (!nome) {
+        nomeErr.classList.add('visible');
+        nomeInp.classList.add('error');
+        valid = false;
+        alertMsg = 'Por favor, informe seu nome para continuar.';
+      }
+
+      if (!telefone) {
+        telErr.classList.add('visible');
+        telInp.classList.add('error');
+        valid = false;
+        if (!alertMsg) alertMsg = 'Por favor, informe seu telefone (WhatsApp) para continuar.';
+        else alertMsg = 'Por favor, preencha seu nome e telefone para continuar.';
+      }
+
+      if (!valid) { showAlert(alertMsg); return; }
+
+      if (!Object.keys(selected).length) {
+        showAlert('Selecione ao menos um item antes de enviar o pedido.');
+        return;
+      }
+
+      // Salva dados no sessionStorage para a próxima página
+      sessionStorage.setItem('bemAventurada_nome', nome);
+      sessionStorage.setItem('bemAventurada_telefone', telefone);
+      sessionStorage.setItem('bemAventurada_obs', document.getElementById('obs').value.trim());
+
+      window.location.href = '/checkout/finish';
+    };
+
+    /* ── PHONE MASK ────────────────────────────────────────── */
+    document.getElementById('telefone').addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '');
+      if (v.length > 11) v = v.slice(0, 11);
+      if (v.length >= 7) v = `(${v.slice(0, 2)}) ${v.slice(2, 7)}-${v.slice(7)}`;
+      else if (v.length >= 3) v = `(${v.slice(0, 2)}) ${v.slice(2)}`;
+      else if (v.length >= 1) v = `(${v}`;
+      e.target.value = v;
+    });
+
+    /* ── INIT ──────────────────────────────────────────────── */
+    renderOrder();
+  </script>
+
+</body>
+
+</html>

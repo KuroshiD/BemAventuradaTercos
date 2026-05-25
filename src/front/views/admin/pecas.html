@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adm — Peças · Bem Aventurada</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', system-ui, sans-serif;
+      background-color: #f5f2ed;
+      color: #1c1c1e;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { background: none; border: none; cursor: pointer; color: inherit; font: inherit; }
+
+    /* ── GRAIN ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.55;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(184,151,58,.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 90%, rgba(26,37,87,.05) 0%, transparent 60%);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,242,237,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(184,151,58,0.20);
+      padding: 0 32px;
+      display: flex; align-items: center; gap: 40px;
+      height: 68px;
+    }
+    .brand { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 500; color: #1a2557; flex-shrink: 0; }
+    .brand span { display: block; font-style: italic; font-weight: 300; font-size: 1.1rem; color: #b8973a; }
+    .nav-links { display: flex; gap: 32px; list-style: none; margin-left: auto; }
+    .nav-links a { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #7a7069; transition: color .25s; }
+    .nav-links a:hover { color: #1a2557; }
+    .nav-links a.active { color: #1a2557; border-bottom: 2px solid #1a2557; padding-bottom: 2px; }
+    .adm-badge { font-size: 0.60rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: #b8973a; color: #fff; padding: 3px 10px; border-radius: 999px; }
+
+    /* ── PAGE ── */
+    .page { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 48px 24px 120px; }
+
+    .page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 36px; flex-wrap: wrap; gap: 16px; }
+    .page-eyebrow { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #b8973a; margin-bottom: 6px; }
+    .page-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 400; color: #1a2557; line-height: 1.1; }
+    .page-title em { font-style: italic; color: #b8973a; }
+
+    /* ── TABS ── */
+    .tab-bar { display: flex; gap: 0; border-bottom: 1px solid #e8e3db; margin-bottom: 32px; }
+    .tab-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase; color: #7a7069;
+      padding: 12px 22px; border-bottom: 2px solid transparent; margin-bottom: -1px;
+      transition: color .25s, border-color .25s;
+    }
+    .tab-btn.active { color: #1a2557; border-bottom-color: #1a2557; }
+    .tab-btn:hover:not(.active) { color: #2b3a7a; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── SECTION HEADER ── */
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.10rem; font-weight: 400; color: #7a7069; }
+
+    /* ── PEÇA TABLE ── */
+    .peca-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .peca-row {
+      background: #fff;
+      border: 1.5px solid #e8e3db;
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: 44px 1fr auto auto auto;
+      align-items: center;
+      gap: 16px;
+      transition: border-color .2s, box-shadow .2s, transform .2s;
+      animation: fadeUp .35s ease both;
+    }
+    .peca-row:hover { border-color: rgba(184,151,58,.35); box-shadow: 0 4px 16px rgba(26,37,87,.08); transform: translateY(-1px); }
+    .peca-row.hidden-item { opacity: 0.5; }
+
+    @media (max-width: 700px) {
+      .peca-row { grid-template-columns: 36px 1fr; grid-template-rows: auto auto; }
+      .peca-row .peca-actions { grid-column: 2; }
+      .peca-row .peca-price-cell { grid-column: 2; }
+      .peca-row .peca-status-cell { display: none; }
+    }
+
+    .peca-swatch {
+      width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+      box-shadow: inset 0 -3px 8px rgba(0,0,0,.18), inset 0 2px 6px rgba(255,255,255,.30), 0 2px 8px rgba(0,0,0,.10);
+    }
+    .peca-swatch.icon-type {
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(184,151,58,.10); border-radius: 10px;
+    }
+    .peca-swatch.icon-type svg { width: 22px; height: 22px; color: #b8973a; }
+
+    .peca-info {}
+    .peca-name { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; color: #1a2557; line-height: 1.2; }
+    .peca-meta { font-size: 0.68rem; color: #7a7069; margin-top: 2px; letter-spacing: 0.04em; }
+
+    /* Inline price editing */
+    .peca-price-cell { display: flex; align-items: center; gap: 4px; }
+    .price-prefix { font-size: 0.75rem; color: #7a7069; font-weight: 500; }
+    .price-input {
+      width: 80px; background: rgba(184,151,58,.06);
+      border: 1.5px solid transparent; border-radius: 8px;
+      padding: 7px 10px; font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-weight: 600; color: #1a2557;
+      text-align: right; outline: none;
+      transition: border-color .2s, background .2s, box-shadow .2s;
+    }
+    .price-input:focus {
+      border-color: #b8973a; background: #fff;
+      box-shadow: 0 0 0 3px rgba(184,151,58,.12);
+    }
+
+    .peca-status-cell { text-align: center; }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 999px;
+    }
+    .status-pill.active { background: rgba(39,174,96,.12); color: #27ae60; }
+    .status-pill.hidden { background: rgba(230,126,34,.12); color: #e67e22; }
+    .status-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+    .peca-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+    /* ── BTNS ── */
+    .btn-primary {
+      background: #1a2557; color: #fff; border: none; border-radius: 10px;
+      padding: 12px 24px; font-family: 'Jost', sans-serif;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+      cursor: pointer; transition: background .25s, transform .25s, box-shadow .25s;
+      box-shadow: 0 4px 16px rgba(26,37,87,.25);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { background: #2b3a7a; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(26,37,87,.35); }
+    .btn-ghost {
+      background: transparent; color: #7a7069; border: 1.5px solid #e8e3db;
+      border-radius: 8px; padding: 7px 14px;
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase;
+      cursor: pointer; transition: border-color .2s, color .2s;
+    }
+    .btn-ghost:hover { border-color: #1a2557; color: #1a2557; }
+    .btn-danger {
+      background: transparent; color: #c0392b; border: 1.5px solid rgba(192,57,43,.25);
+      border-radius: 8px; padding: 7px 12px;
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase;
+      cursor: pointer; transition: background .2s, border-color .2s;
+    }
+    .btn-danger:hover { background: rgba(192,57,43,.07); border-color: #c0392b; }
+    .btn-icon {
+      width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid #e8e3db;
+      display: flex; align-items: center; justify-content: center;
+      color: #7a7069; cursor: pointer; transition: border-color .2s, color .2s;
+    }
+    .btn-icon:hover { border-color: #1a2557; color: #1a2557; }
+    .btn-icon svg { width: 14px; height: 14px; }
+
+    /* ── MODAL ── */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(26,37,87,.45); backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: #faf8f4; border-radius: 20px; border: 1px solid rgba(184,151,58,.20);
+      padding: 40px; width: 100%; max-width: 480px;
+      box-shadow: 0 24px 64px rgba(26,37,87,.25);
+      transform: translateY(24px); transition: transform .3s cubic-bezier(.4,0,.2,1);
+      position: relative;
+    }
+    .modal-backdrop.open .modal { transform: translateY(0); }
+    .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.65rem; font-weight: 400; color: #1a2557; margin-bottom: 28px; }
+    .modal-close {
+      position: absolute; top: 20px; right: 20px;
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(26,37,87,.06); color: #7a7069; cursor: pointer; transition: background .2s;
+    }
+    .modal-close:hover { background: rgba(26,37,87,.12); }
+    .modal-close svg { width: 16px; height: 16px; }
+
+    .form-group { margin-bottom: 18px; }
+    .form-label { display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase; color: #7a7069; margin-bottom: 8px; }
+    .form-input {
+      width: 100%; background: #fff; border: 1.5px solid #e8e3db; border-radius: 10px;
+      padding: 12px 16px; font-family: 'Jost', sans-serif; font-size: 0.88rem; color: #1a2557; outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-input:focus { border-color: #b8973a; box-shadow: 0 0 0 3px rgba(184,151,58,.12); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* Color swatch preview */
+    .color-preview-wrap { display: flex; align-items: center; gap: 12px; }
+    .color-preview-wrap .form-input { flex: 1; }
+    .color-preview-swatch {
+      width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+      border: 2px solid rgba(0,0,0,.1);
+      box-shadow: inset 0 -3px 8px rgba(0,0,0,.18), inset 0 2px 6px rgba(255,255,255,.30);
+      transition: background .2s;
+    }
+
+    .toggle-group { display: flex; gap: 12px; flex-wrap: wrap; }
+    .toggle-option { display: none; }
+    .toggle-label {
+      padding: 9px 18px; border-radius: 8px; border: 1.5px solid #e8e3db;
+      font-size: 0.70rem; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase;
+      color: #7a7069; cursor: pointer; transition: border-color .2s, color .2s, background .2s;
+    }
+    .toggle-option:checked + .toggle-label { border-color: #1a2557; color: #1a2557; background: rgba(26,37,87,.05); }
+
+    .modal-footer { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+
+    /* ── CONFIRM ── */
+    .confirm-backdrop {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(26,37,87,.50); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+      opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .confirm-backdrop.open { opacity: 1; pointer-events: all; }
+    .confirm-box {
+      background: #faf8f4; border-radius: 16px; padding: 32px; max-width: 380px; width: 100%;
+      box-shadow: 0 16px 48px rgba(26,37,87,.25); border: 1px solid rgba(184,151,58,.15);
+      transform: scale(.96); transition: transform .25s;
+    }
+    .confirm-backdrop.open .confirm-box { transform: scale(1); }
+    .confirm-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; color: #1a2557; margin-bottom: 12px; }
+    .confirm-box p { font-size: 0.80rem; color: #7a7069; line-height: 1.6; margin-bottom: 24px; }
+    .confirm-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 32px; right: 32px; z-index: 400;
+      background: #1a2557; color: #fff;
+      padding: 14px 22px; border-radius: 10px;
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em;
+      box-shadow: 0 8px 32px rgba(26,37,87,.35);
+      transform: translateY(80px); opacity: 0;
+      transition: transform .3s cubic-bezier(.4,0,.2,1), opacity .3s;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast svg { width: 18px; height: 18px; color: #b8973a; flex-shrink: 0; }
+
+    /* ── ORNAMENT ── */
+    .ornament-divider { text-align: center; color: #b8973a; font-size: 1rem; letter-spacing: 0.50em; margin: 24px 0; opacity: 0.5; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center; padding: 60px 24px;
+      border: 1.5px dashed rgba(184,151,58,.30); border-radius: 16px;
+      color: #7a7069;
+    }
+    .empty-state p { font-size: 0.80rem; margin-top: 8px; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      background: rgba(245,242,237,.96); backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(184,151,58,.20);
+      padding: 36px 24px; text-align: center;
+    }
+    .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 500; color: #1a2557; }
+    .footer-brand em { display: block; font-style: italic; font-weight: 300; font-size: .95rem; color: #b8973a; }
+    .footer-copy { margin-top: 16px; font-size: 0.68rem; color: #7a7069; opacity: .6; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="brand">Bem<span>Aventurada</span></div>
+    <ul class="nav-links">
+      <li><a href="/admin/galeria">Galeria</a></li>
+      <li><a href="/admin/pecas" class="active">Peças</a></li>
+      <li><a href="/">← Site</a></li>
+    </ul>
+    <span class="adm-badge">Adm</span>
+  </nav>
+
+  <!-- PAGE -->
+  <div class="page">
+    <div class="page-header">
+      <div>
+        <p class="page-eyebrow">Administração</p>
+        <h1 class="page-title">Peças & <em>Preços</em></h1>
+      </div>
+    </div>
+
+    <div class="ornament-divider">· · · ✦ · · ·</div>
+
+    <!-- TABS -->
+    <div class="tab-bar" id="tabBar">
+      <button class="tab-btn active" data-tab="micancas">Miçangas</button>
+      <button class="tab-btn" data-tab="passantes">Passantes</button>
+      <button class="tab-btn" data-tab="entremeios">Entremeios</button>
+      <button class="tab-btn" data-tab="crucifixos">Crucifixos</button>
+    </div>
+
+    <!-- PANELS -->
+    <div id="tab-micancas" class="tab-panel active">
+      <div class="section-header">
+        <p class="section-title">Miçangas disponíveis</p>
+        <button class="btn-primary" onclick="openAdd('micancas')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Nova Miçanga
+        </button>
+      </div>
+      <div class="peca-list" id="list-micancas"></div>
+    </div>
+
+    <div id="tab-passantes" class="tab-panel">
+      <div class="section-header">
+        <p class="section-title">Passantes disponíveis</p>
+        <button class="btn-primary" onclick="openAdd('passantes')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Novo Passante
+        </button>
+      </div>
+      <div class="peca-list" id="list-passantes"></div>
+    </div>
+
+    <div id="tab-entremeios" class="tab-panel">
+      <div class="section-header">
+        <p class="section-title">Entremeios disponíveis</p>
+        <button class="btn-primary" onclick="openAdd('entremeios')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Novo Entremeio
+        </button>
+      </div>
+      <div class="peca-list" id="list-entremeios"></div>
+    </div>
+
+    <div id="tab-crucifixos" class="tab-panel">
+      <div class="section-header">
+        <p class="section-title">Crucifixos disponíveis</p>
+        <button class="btn-primary" onclick="openAdd('crucifixos')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Novo Crucifixo
+        </button>
+      </div>
+      <div class="peca-list" id="list-crucifixos"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">Bem<em>Aventurada</em></div>
+    <p class="footer-copy">&copy; 2026 Bem Aventurada · Painel Administrativo</p>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal(event)">
+    <div class="modal">
+      <button class="modal-close" onclick="closeAddModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+      <h2 class="modal-title" id="modalTitle">Nova Peça</h2>
+
+      <div class="form-group">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-input" id="fName" placeholder="Ex: Ametista Roxa" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Material / tipo</label>
+          <input type="text" class="form-input" id="fMaterial" placeholder="Ex: Cristal natural" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preço (R$)</label>
+          <input type="number" class="form-input" id="fPrice" placeholder="0,00" min="0" step="0.01" />
+        </div>
+      </div>
+
+      <div class="form-group" id="colorGroup">
+        <label class="form-label">Cor (hex)</label>
+        <div class="color-preview-wrap">
+          <input type="text" class="form-input" id="fColor" placeholder="#8a6bb1" oninput="updateSwatch()" />
+          <div class="color-preview-swatch" id="colorSwatch" style="background:#e8e3db"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Disponibilidade</label>
+        <div class="toggle-group">
+          <input type="radio" name="avail" id="availYes" class="toggle-option" value="active" checked />
+          <label class="toggle-label" for="availYes">Disponível</label>
+          <input type="radio" name="avail" id="availNo" class="toggle-option" value="hidden" />
+          <label class="toggle-label" for="availNo">Indisponível</label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-ghost" onclick="closeAddModal()">Cancelar</button>
+        <button class="btn-primary" onclick="saveItem()">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRM -->
+  <div class="confirm-backdrop" id="confirmBackdrop">
+    <div class="confirm-box">
+      <h3>Remover peça?</h3>
+      <p>A peça será removida e não estará mais disponível para seleção no configurador.</p>
+      <div class="confirm-actions">
+        <button class="btn-ghost" onclick="closeConfirm()">Cancelar</button>
+        <button class="btn-danger" onclick="confirmDelete()">Remover</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+    <span id="toastMsg">Salvo!</span>
+  </div>
+
+<script>
+  // ── DEFAULTS ──────────────────────────────────────────────
+  const DEFAULTS = {
+    micancas: [
+      { id: 1,  name: 'Ametista',        material: 'Cristal natural', color: '#8a6bb1', price: 8.00,  status: 'active' },
+      { id: 2,  name: 'Quartzo Rosa',    material: 'Cristal natural', color: '#e8a0b0', price: 8.00,  status: 'active' },
+      { id: 3,  name: 'Lápis-Lazúli',   material: 'Cristal natural', color: '#2e5fa3', price: 10.00, status: 'active' },
+      { id: 4,  name: 'Obsidiana',       material: 'Cristal natural', color: '#1a1a1a', price: 9.00,  status: 'active' },
+      { id: 5,  name: 'Madeira Natural', material: 'Madeira de oliva', color: '#8b6340', price: 6.00,  status: 'active' },
+      { id: 6,  name: 'Pérola Branca',   material: 'Pérola sintética', color: '#f5f0e8', price: 12.00, status: 'active' },
+      { id: 7,  name: 'Granada',         material: 'Cristal natural', color: '#8b1a1a', price: 11.00, status: 'active' },
+      { id: 8,  name: 'Jade Verde',      material: 'Cristal natural', color: '#4a7c59', price: 9.00,  status: 'active' },
+    ],
+    passantes: [
+      { id: 1, name: 'Prata 925',        material: 'Prata polida',    color: '#c0c0c0', price: 5.00, status: 'active' },
+      { id: 2, name: 'Dourado Liso',     material: 'Metal banhado',   color: '#d4af37', price: 5.00, status: 'active' },
+      { id: 3, name: 'Ouro Envelhecido', material: 'Metal vintage',   color: '#b8860b', price: 6.00, status: 'active' },
+      { id: 4, name: 'Bronze Antigo',    material: 'Liga metálica',   color: '#8c6c3c', price: 4.00, status: 'active' },
+    ],
+    entremeios: [
+      { id: 1, name: 'Nossa Senhora',    material: 'Zamak banhado',   color: '#d4af37', price: 7.00, status: 'active' },
+      { id: 2, name: 'Sagrado Coração',  material: 'Zamak banhado',   color: '#c0c0c0', price: 7.00, status: 'active' },
+      { id: 3, name: 'Cruz Simples',     material: 'Zamak banhado',   color: '#b8860b', price: 5.00, status: 'active' },
+      { id: 4, name: 'Flor de Lis',      material: 'Zamak banhado',   color: '#d4af37', price: 6.00, status: 'active' },
+    ],
+    crucifixos: [
+      { id: 1, name: 'Prateado Clássico', material: 'Prata 925',      color: '#c0c0c0', price: 15.00, status: 'active' },
+      { id: 2, name: 'Dourado Liso',      material: 'Metal banhado',  color: '#d4af37', price: 15.00, status: 'active' },
+      { id: 3, name: 'Bronze Esculpido',  material: 'Liga metálica',  color: '#8c6c3c', price: 18.00, status: 'active' },
+      { id: 4, name: 'Ouro Envelhecido',  material: 'Metal vintage',  color: '#b8860b', price: 20.00, status: 'active' },
+    ]
+  };
+
+  // ── STATE ─────────────────────────────────────────────────
+  let data = {};
+  let nextIds = {};
+  const TABS = ['micancas','passantes','entremeios','crucifixos'];
+  let currentTab = 'micancas';
+  let editingId = null;
+  let deletingId = null;
+  let deletingTab = null;
+
+  function loadData() {
+    TABS.forEach(tab => {
+      const saved = localStorage.getItem('ba_pecas_' + tab);
+      data[tab] = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULTS[tab]));
+      nextIds[tab] = data[tab].length ? Math.max(...data[tab].map(i=>i.id)) + 1 : 1;
+    });
+  }
+
+  function saveData(tab) { localStorage.setItem('ba_pecas_' + tab, JSON.stringify(data[tab])); }
+
+  // ── TABS ──────────────────────────────────────────────────
+  document.getElementById('tabBar').addEventListener('click', e => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    currentTab = btn.dataset.tab;
+    document.getElementById('tab-' + currentTab).classList.add('active');
+    renderList(currentTab);
+  });
+
+  // ── RENDER ────────────────────────────────────────────────
+  function isColorType(tab) { return ['micancas','passantes'].includes(tab); }
+
+  function swatchHtml(item, tab) {
+    if (isColorType(tab)) {
+      return `<div class="peca-swatch" style="background:${item.color}"></div>`;
+    }
+    // icon for entremeios / crucifixos
+    return `<div class="peca-swatch icon-type"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/></svg></div>`;
+  }
+
+  function renderList(tab) {
+    const container = document.getElementById('list-' + tab);
+    container.innerHTML = '';
+
+    if (!data[tab].length) {
+      container.innerHTML = `<div class="empty-state"><p>Nenhuma peça cadastrada ainda.</p></div>`;
+      return;
+    }
+
+    data[tab].forEach((item, idx) => {
+      const row = document.createElement('div');
+      row.className = 'peca-row' + (item.status === 'hidden' ? ' hidden-item' : '');
+      row.style.animationDelay = (idx * 0.04) + 's';
+      row.innerHTML = `
+        ${swatchHtml(item, tab)}
+        <div class="peca-info">
+          <p class="peca-name">${item.name}</p>
+          <p class="peca-meta">${item.material}</p>
+        </div>
+        <div class="peca-price-cell">
+          <span class="price-prefix">R$</span>
+          <input type="number" class="price-input" value="${item.price.toFixed(2)}"
+            min="0" step="0.01"
+            onchange="updatePrice('${tab}', ${item.id}, this.value)"
+            title="Clique para editar o preço" />
+        </div>
+        <div class="peca-status-cell">
+          <span class="status-pill ${item.status}">${item.status === 'active' ? 'Disponível' : 'Indisponível'}</span>
+        </div>
+        <div class="peca-actions">
+          <button class="btn-icon" onclick="openEdit('${tab}', ${item.id})" title="Editar">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"/></svg>
+          </button>
+          <button class="btn-ghost" onclick="toggleAvail('${tab}', ${item.id})">${item.status === 'active' ? 'Pausar' : 'Ativar'}</button>
+          <button class="btn-danger" onclick="askDelete('${tab}', ${item.id})">Remover</button>
+        </div>`;
+      container.appendChild(row);
+    });
+  }
+
+  // ── INLINE PRICE ──────────────────────────────────────────
+  function updatePrice(tab, id, val) {
+    const item = data[tab].find(i => i.id === id);
+    item.price = parseFloat(val) || 0;
+    saveData(tab);
+    showToast('Preço atualizado!');
+  }
+
+  // ── TOGGLE ────────────────────────────────────────────────
+  function toggleAvail(tab, id) {
+    const item = data[tab].find(i => i.id === id);
+    item.status = item.status === 'active' ? 'hidden' : 'active';
+    saveData(tab); renderList(tab);
+    showToast(item.status === 'active' ? 'Peça ativada.' : 'Peça pausada.');
+  }
+
+  // ── MODAL ADD / EDIT ──────────────────────────────────────
+  function openAdd(tab) {
+    editingId = null; currentTab = tab;
+    document.getElementById('modalTitle').textContent = 'Nova Peça';
+    document.getElementById('fName').value = '';
+    document.getElementById('fMaterial').value = '';
+    document.getElementById('fPrice').value = '';
+    document.getElementById('fColor').value = '';
+    document.getElementById('colorSwatch').style.background = '#e8e3db';
+    document.getElementById('availYes').checked = true;
+    document.getElementById('colorGroup').style.display = isColorType(tab) ? '' : 'none';
+    document.getElementById('modalBackdrop').classList.add('open');
+  }
+
+  function openEdit(tab, id) {
+    currentTab = tab;
+    const item = data[tab].find(i => i.id === id);
+    editingId = id;
+    document.getElementById('modalTitle').textContent = 'Editar Peça';
+    document.getElementById('fName').value = item.name;
+    document.getElementById('fMaterial').value = item.material;
+    document.getElementById('fPrice').value = item.price;
+    document.getElementById('fColor').value = item.color || '';
+    document.getElementById('colorSwatch').style.background = item.color || '#e8e3db';
+    document.getElementById(item.status === 'active' ? 'availYes' : 'availNo').checked = true;
+    document.getElementById('colorGroup').style.display = isColorType(tab) ? '' : 'none';
+    document.getElementById('modalBackdrop').classList.add('open');
+  }
+
+  function closeAddModal() { document.getElementById('modalBackdrop').classList.remove('open'); }
+  function closeModal(e) { if (e.target === document.getElementById('modalBackdrop')) closeAddModal(); }
+
+  function updateSwatch() {
+    const val = document.getElementById('fColor').value.trim();
+    document.getElementById('colorSwatch').style.background = val || '#e8e3db';
+  }
+
+  function saveItem() {
+    const name     = document.getElementById('fName').value.trim();
+    const material = document.getElementById('fMaterial').value.trim();
+    const price    = parseFloat(document.getElementById('fPrice').value) || 0;
+    const color    = document.getElementById('fColor').value.trim() || '#c8bfb0';
+    const status   = document.querySelector('input[name="avail"]:checked').value;
+    if (!name) { document.getElementById('fName').focus(); return; }
+
+    if (editingId) {
+      const item = data[currentTab].find(i => i.id === editingId);
+      Object.assign(item, { name, material, price, color, status });
+      showToast('Peça atualizada!');
+    } else {
+      data[currentTab].push({ id: nextIds[currentTab]++, name, material, price, color, status });
+      showToast('Peça adicionada!');
+    }
+    saveData(currentTab); renderList(currentTab); closeAddModal();
+  }
+
+  // ── DELETE ────────────────────────────────────────────────
+  function askDelete(tab, id) { deletingTab = tab; deletingId = id; document.getElementById('confirmBackdrop').classList.add('open'); }
+  function closeConfirm()     { document.getElementById('confirmBackdrop').classList.remove('open'); }
+  function confirmDelete() {
+    data[deletingTab] = data[deletingTab].filter(i => i.id !== deletingId);
+    saveData(deletingTab); renderList(deletingTab); closeConfirm();
+    showToast('Peça removida.');
+  }
+
+  // ── TOAST ─────────────────────────────────────────────────
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+
+  // ── INIT ──────────────────────────────────────────────────
+  loadData();
+  TABS.forEach(t => renderList(t));
+</script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem Aventurada - Pedido Concluído</title>
+    <link rel="stylesheet" href="/public/css/conclusao.css">
+    <link rel="stylesheet" href="/public/css/index-home.css" />
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
+
+</head>
+
+<body>
+    <nav>
+        <div class="brand">Bem<span>Aventurada</span></div>
+        <ul class="nav-links">
+            <li><a href="/" class="active">Início</a></li>
+            <li><a href="/galeria">Galeria</a></li>
+            <li><a href="/terco/criar">Monte seu Terço</a></li>
+        </ul>
+    </nav>
+
+    <main class="conclusao-body">
+        <div class="conteudo">
+            <div class="success-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+            </div>
+
+            <h1 class="titulo">Pedido Concluído com Sucesso!</h1>
+
+            <p class="agradecimento-mensagem">
+                Muito obrigado pela sua encomenda! Estamos imensamente felizes com a sua preferência.
+                Seu pedido já está sendo processado com todo o cuidado e carinho que você merece.
+            </p>
+
+            <div class="detalhe-pedido">
+                <p class="order-number">Detalhes do seu pedido</p>
+                <div id="orderDetails">
+                    <p>Carregando os detalhes do pedido...</p>
+                </div>
+            </div>
+
+            <div class="button-inicio">
+                <a href="/" class="btn btn-primary">VOLTAR À PÁGINA INICIAL</a>
+            </div>
+
+            <p class="footer-note">Um e-mail de confirmação foi enviado para você.</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <p class="footer-brand">Bem<em>Aventurada</em></p>
+            <div class="footer-contact">
+                <p>(16) 99214-9246</p>
+                <p>@bemaventurada_tercos</p>
+            </div>
+            <p class="footer-copy">&copy; 2026 Bem Aventurada. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        const whatsappNumber = '5516974017748'; // Ajuste para o número do seu WhatsApp
+
+        const selectedData = JSON.parse(sessionStorage.getItem('bemAventurada_selected') || '{}');
+        const customerName = sessionStorage.getItem('bemAventurada_nome') || 'Não informado';
+        const customerPhone = sessionStorage.getItem('bemAventurada_telefone') || 'Não informado';
+        const customerObs = sessionStorage.getItem('bemAventurada_obs') || 'Nenhuma observação';
+
+        const categoryLabel = {
+            micancas: 'Miçanga',
+            passantes: 'Passante',
+            entremeios: 'Entremeio',
+            crucifixos: 'Crucifixo'
+        };
+
+        const formatPrice = (value) => `R$ ${value.toFixed(2).replace('.', ',')}`;
+
+        const buildItemText = (category, item) => {
+            const parts = [`${item.name}`];
+            if (item.material) parts.push(item.material);
+            if (item.color) parts.push(`cor ${item.color}`);
+            return `- ${categoryLabel[category] || category}: ${parts.join(' / ')} (${formatPrice(item.price)})`;
+        };
+
+        const itemLines = Object.entries(selectedData).map(
+            ([category, item]) => buildItemText(category, item)
+        );
+
+        const totalValue = Object.values(selectedData).reduce((sum, item) => sum + (item.price || 0), 0);
+
+        const messageLines = [
+            'Olá! Gostaria de enviar um pedido via WhatsApp.',
+            '',
+            `Nome: ${customerName}`,
+            `WhatsApp do Cliente: ${customerPhone}`,
+            '',
+            'Itens selecionados:'
+        ];
+
+        if (itemLines.length) {
+            messageLines.push(...itemLines);
+        } else {
+            messageLines.push('- Nenhum item selecionado.');
+        }
+
+        messageLines.push('', `Total do pedido: ${formatPrice(totalValue)}`);
+        messageLines.push('', `Observação: ${customerObs}`);
+
+        const whatsappMessage = encodeURIComponent(messageLines.join('\n'));
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+        const renderOrderDetails = () => {
+            const container = document.getElementById('orderDetails');
+
+            if (!container) return;
+
+            if (!itemLines.length) {
+                container.innerHTML = '<p>Nenhum item encontrado. Por favor, volte e selecione seu terço.</p>';
+                return;
+            }
+
+            container.innerHTML = `
+                <p>Nome: <span class="detail-value">${customerName}</span></p>
+                <p>Telefone: <span class="detail-value">${customerPhone}</span></p>
+                ${itemLines.map((line) => `<p><span class="detail-value">${line}</span></p>`).join('')}
+                <p>Total estimado: <span class="detail-value">${formatPrice(totalValue)}</span></p>
+                <p>Observação: <span class="detail-value">${customerObs}</span></p>
+            `;
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderOrderDetails();
+            if (itemLines.length) {
+                window.location.href = whatsappUrl;
+            }
+        });
+    </script>
+</body>
+</html>
