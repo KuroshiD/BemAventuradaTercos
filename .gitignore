@@ -1,0 +1,9 @@
+logs
+*.log
+dist/
+build/
+*.tsbuildinfo
+.env
+.vscode/
+.npm
+node_modules
