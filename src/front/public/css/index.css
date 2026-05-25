@@ -1,0 +1,230 @@
+/* ============================================================
+   BEM AVENTURADA — index.css
+   ============================================================ */
+
+
+/* ── GOOGLE FONTS ─────────────────────────────────────────── */
+/*
+  Importar no <head> do HTML:
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+*/
+
+
+
+
+/* ── NORMALIZE / MODERN RESET ─────────────────────────────── */
+
+/*
+  1. Box model universal — inclui pseudo-elementos.
+     Elimina diferenças de padding/border entre navegadores.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/*
+  2. Remove margens e paddings padrão do navegador.
+     Garante base zero para todos os elementos.
+*/
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+  3. HTML raiz.
+     - scroll-behavior smooth para âncoras.
+     - height 100% permite que body ocupe toda a viewport.
+     - hanging-punctuation melhora tipografia em bloco.
+*/
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+  /* Evita zoom automático em iOS */
+  tab-size: 4;
+  hanging-punctuation: first last;
+}
+
+/*
+  4. Body base.
+     - Herda fonte globalmente.
+     - min-height 100dvh cobre browsers mobile modernos.
+     - overflow-x hidden previne scroll horizontal acidental.
+     - line-height intermediário melhora legibilidade padrão.
+*/
+body {
+  font-family: 'Jost', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: #f5f2ed;
+  color: #1c1c1e;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*
+  5. Imagens e mídia responsivas por padrão.
+     - max-width 100% impede overflow horizontal.
+     - height auto mantém aspect ratio.
+     - display block remove gap inline de imagens.
+*/
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/*
+  6. Inputs herdam fonte do documento.
+     Navegadores aplicam font-family diferente por padrão em
+     inputs, buttons e selects — aqui corrigimos isso.
+*/
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/*
+  7. Texto longo — permite quebra segura em palavras longas.
+     Evita overflow horizontal em containers estreitos.
+*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/*
+  8. Listas sem estilo por padrão quando usadas com role.
+     Remove bullet e indent de <ul>/<ol> sem semântica de lista.
+*/
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/*
+  9. Âncoras — reset de cor e decoração.
+     A estilização específica é feita nos componentes.
+*/
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/*
+  10. Botões — reset de aparência nativa do sistema.
+      cursor pointer como padrão legível.
+*/
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+/*
+  11. Tabelas — colapso de bordas e herança de fonte.
+*/
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/*
+  12. Elementos de bloco HTML5 — garante display correto em
+      navegadores mais antigos.
+*/
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section {
+  display: block;
+}
+
+/*
+  13. Ocultar elementos com [hidden] corretamente.
+*/
+[hidden] {
+  display: none !important;
+}
+
+/*
+  14. Foco visível acessível — mantém outline apenas via teclado.
+      :focus-visible é suportado por todos os navegadores modernos.
+*/
+:focus-visible {
+  outline: 2px solid #b8973a;
+  outline-offset: 3px;
+}
+
+/*
+  15. Redução de movimento — respeita preferência do usuário.
+      Desabilita animações e transições pesadas.
+*/
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+  16. Seleção de texto com cores da marca.
+*/
+::selection {
+  background-color: rgba(184, 151, 58, 0.25);
+  color: #1a2557;
+}
+
+/*
+  17. Scrollbar customizada (Chromium).
+      Mantém identidade visual no scroll.
+*/
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e8e3db;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(184, 151, 58, 0.45);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b8973a;
+}

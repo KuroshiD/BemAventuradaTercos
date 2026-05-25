@@ -1,0 +1,426 @@
+/* ========================================================
+   BEM AVENTURADA — monte-seu-terco.css
+   ======================================================== */
+
+/* ── MAIN LAYOUT ──────────────────────────────────────────── */
+
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 120px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr;
+    padding: 24px 16px 110px;
+    gap: 32px;
+  }
+}
+
+/* ── COLUNA ESQUERDA — PREVIEW ────────────────────────────── */
+
+.preview-col {
+  position: sticky;
+  top: 100px;
+}
+
+@media (max-width: 768px) {
+  .preview-col {
+    position: static;
+  }
+}
+
+.preview-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #b8973a;
+  margin-bottom: 8px;
+}
+
+.preview-title {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 2.00rem;
+  font-weight: 400;
+  color: #1a2557;
+  margin-bottom: 28px;
+  line-height: 1.1;
+}
+
+.preview-title em {
+  font-style: italic;
+  color: #b8973a;
+}
+
+.rosary-canvas {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(184, 151, 58, 0.20);
+  box-shadow: 0 16px 48px rgba(26, 37, 87, 0.18);
+  padding: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 340px;
+  position: relative;
+  overflow: hidden;
+}
+
+.rosary-canvas::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(184, 151, 58, .07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+#rosarySvg {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(26, 37, 87, .12));
+}
+
+/* ── SELEÇÃO ATUAL (SUMMARY) ──────────────────────────────── */
+
+.selection-summary {
+  margin-top: 24px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, rgba(26, 37, 87, .04) 0%, rgba(184, 151, 58, .04) 100%);
+  border: 1px solid rgba(184, 151, 58, 0.20);
+  border-radius: 10px;
+}
+
+.summary-title {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #b8973a;
+  margin-bottom: 10px;
+}
+
+.summary-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.80rem;
+  color: #1a2557;
+}
+
+.summary-item-empty {
+  color: #7a7069;
+  font-style: italic;
+}
+
+.summary-item .s-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: middle;
+  box-shadow: inset 0 -1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.summary-item .s-price {
+  color: #7a7069;
+  font-size: 0.75rem;
+}
+
+/* ── TAB BAR ──────────────────────────────────────────────── */
+
+.tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #e8e3db;
+  margin-bottom: 28px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Jost', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7a7069;
+  padding: 12px 20px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-btn.active {
+  color: #1a2557;
+  border-bottom-color: #1a2557;
+}
+
+.tab-btn:hover:not(.active) {
+  color: #2b3a7a;
+}
+
+/* ── TAB PANELS ───────────────────────────────────────────── */
+
+.tab-panel {
+  display: block;
+}
+
+/* Esconde os painéis inativos por padrão */
+#tab-passantes,
+#tab-entremeios,
+#tab-crucifixos {
+  display: none;
+}
+
+/* ── SECTION HEADING ──────────────────────────────────────── */
+
+.section-heading {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 1.10rem;
+  font-weight: 400;
+  color: #7a7069;
+  margin-bottom: 20px;
+  letter-spacing: 0.03em;
+}
+
+/* ── BEAD GRID ────────────────────────────────────────────── */
+
+.bead-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.bead-card {
+  background: #ffffff;
+  border: 1.5px solid #e8e3db;
+  border-radius: 10px;
+  padding: 20px 16px;
+  cursor: pointer;
+  transition:
+    border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.4s ease both;
+}
+
+.bead-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(184, 151, 58, .04) 100%);
+  pointer-events: none;
+}
+
+.bead-card:hover {
+  border-color: rgba(184, 151, 58, 0.5);
+  box-shadow: 0 2px 8px rgba(26, 37, 87, 0.10);
+  transform: translateY(-2px);
+}
+
+.bead-card.selected {
+  border-color: #b8973a;
+  box-shadow: 0 0 0 3px rgba(184, 151, 58, 0.15), 0 2px 8px rgba(26, 37, 87, 0.10);
+}
+
+.bead-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 0.70rem;
+  font-weight: 700;
+  color: #b8973a;
+}
+
+.bead-card.selected .bead-swatch {
+  box-shadow: inset 0 -3px 8px rgba(0, 0, 0, .22), inset 0 2px 6px rgba(255, 255, 255, .40), 0 4px 14px rgba(0, 0, 0, .18);
+}
+
+/* Stagger de entrada */
+.bead-card:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.bead-card:nth-child(2) {
+  animation-delay: 0.10s;
+}
+
+.bead-card:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.bead-card:nth-child(4) {
+  animation-delay: 0.20s;
+}
+
+.bead-card:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.bead-card:nth-child(6) {
+  animation-delay: 0.30s;
+}
+
+.bead-card:nth-child(7) {
+  animation-delay: 0.35s;
+}
+
+.bead-card:nth-child(8) {
+  animation-delay: 0.40s;
+}
+
+.bead-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+  box-shadow: inset 0 -3px 8px rgba(0, 0, 0, .18), inset 0 2px 6px rgba(255, 255, 255, .30), 0 2px 8px rgba(0, 0, 0, .12);
+  transition: box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bead-card:hover .bead-swatch {
+  box-shadow: inset 0 -3px 8px rgba(0, 0, 0, .22), inset 0 2px 6px rgba(255, 255, 255, .40), 0 4px 14px rgba(0, 0, 0, .18);
+}
+
+.bead-name {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1a2557;
+  line-height: 1.2;
+}
+
+.bead-meta {
+  font-size: 0.70rem;
+  color: #7a7069;
+  margin-top: 2px;
+  letter-spacing: 0.04em;
+}
+
+.bead-meta span {
+  color: #2b3a7a;
+  font-weight: 500;
+}
+
+/* ── DIVIDER ORNAMENTAL ───────────────────────────────────── */
+
+.ornament-divider {
+  text-align: center;
+  color: #b8973a;
+  font-size: 1rem;
+  letter-spacing: 0.50em;
+  margin: 24px 0 20px;
+  opacity: 0.5;
+}
+
+/* ── DELIVERY NOTICE ──────────────────────────────────────── */
+
+.delivery-notice {
+  font-size: 0.75rem;
+  color: #7a7069;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.delivery-notice strong {
+  color: #1a2557;
+}
+
+/* ── FOOTER BAR ───────────────────────────────────────────── */
+
+.footer-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(245, 242, 237, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(184, 151, 58, 0.25);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.total-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7a7069;
+  margin-bottom: 2px;
+}
+
+.total-value {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 1.80rem;
+  font-weight: 500;
+  color: #1a2557;
+  letter-spacing: 0.01em;
+}
+
+/* ── BOTÃO PRIMÁRIO ───────────────────────────────────────── */
+
+.btn-primary {
+  background: #1a2557;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 15px 36px;
+  font-family: 'Jost', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(26, 37, 87, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.btn-primary:hover {
+  background: #2b3a7a;
+  box-shadow: 0 6px 24px rgba(26, 37, 87, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
