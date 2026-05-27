@@ -161,12 +161,4 @@ O projeto lê as variáveis via `dotenv` (veja `src/env.ts`). Se não definidas,
 - [Dockerfile](Dockerfile#L1) — instruções de imagem
 - [docker-compose.yml](docker-compose.yml#L1) — orquestração
 
----
 
-Se quiser, eu posso:
-
-- adicionar um `.env.example` no repositório com as variáveis mostradas acima;
-- ajustar os scripts em `package.json` para serem cross-platform (Windows + Unix);
-- criar um script `dev` com `nodemon` para facilitar desenvolvimento.
-
-Arquivo criado: [README.md](README.md)
