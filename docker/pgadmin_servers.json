@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Bem Aventurada DB",
+      "Group": "Servers",
+      "Host": "db",
+      "Port": 5432,
+      "MaintenanceDB": "db_api",
+      "Username": "db_user",
+      "SSLMode": "prefer",
+      "Comment": "Conexão automática com o banco PostgreSQL do compose"
+    }
+  }
+}

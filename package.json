@@ -7,17 +7,24 @@
     "copy-assets": "cp -rf src/front dist/front",
     "build": "rm -rf dist; tsc && yarn copy-assets",
     "start": "node dist/server.js",
-    "build-and-start": "yarn build && yarn start"
+    "build-and-start": "yarn build && yarn start",
+    "db:up": "docker-compose up -d db",
+    "db:down": "docker-compose stop db",
+    "migrate": "ts-node ./src/api/migrations/runMigrations.ts"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^22.1.0",
+    "@types/pg": "^8.20.0",
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "pg": "^8.11.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.18"
   }
 }

@@ -12,5 +12,7 @@ export default {
     nginx_port: parseIntWithFallback(process.env.NGINX_PORT, 9999),
     db: process.env.DB ?? "db_api",
     db_user: process.env.DB_USER ?? "db_user",
-    db_pass: process.env.DB_PASS ?? "db_pass"
+    db_pass: process.env.DB_PASS ?? "db_pass",
+    db_host: process.env.DB_HOST ?? "localhost",
+    db_port: parseIntWithFallback(process.env.DB_PORT, 5432),
 }

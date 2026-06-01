@@ -1,8 +1,10 @@
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
-import helloRouter from './routes/helloRoute';
 import createViewRouter from './routes/viewRoutes';
+import authRouter from './routes/auth.routes';
+import galleryRouter from './routes/gallery.routes';
+import pecasRouter from './routes/pecas.routes';
 
 const app = express();
 
@@ -15,10 +17,12 @@ if (fs.existsSync(publicDir)) {
   app.use('/public', express.static(publicDir));
 }
 
-app.use('/api', helloRouter);
+app.use('/adm', authRouter);
+app.use('/adm', galleryRouter);
+app.use('/adm', pecasRouter);
 app.use('/', createViewRouter());
 
-app.use((req, res) => {
+app.use((_req, res) => {
   res.status(404).send('Página não encontrada');
 });
 
