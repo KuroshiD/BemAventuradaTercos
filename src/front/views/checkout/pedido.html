@@ -142,21 +142,18 @@
     }
 
     .brand {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 1.45rem;
-      font-weight: 500;
-      color: #1a2557;
-      letter-spacing: .02em;
-      line-height: 1.15;
-      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding: 12px 0;
     }
 
-    .brand span {
+    .brand img {
+      height: 170%;
+      width: auto;
       display: block;
-      font-style: italic;
-      font-weight: 300;
-      font-size: 1.1rem;
-      color: #b8973a;
+      object-fit: contain;
+      margin-left: 80px;
     }
 
     .nav-links {
@@ -641,11 +638,11 @@
   </div>
 
   <nav>
-    <div class="brand">Bem<span>Aventurada</span></div>
+    <div class="brand"><img src="./images/logo.png" alt=""></div>
     <ul class="nav-links">
-      <li><a href="/">Início</a></li>
-      <li><a href="/galeria">Galeria</a></li>
-      <li><a href="/terco/criar" class="active">Monte seu Terço</a></li>
+      <li><a href="#">Início</a></li>
+      <li><a href="#">Galeria</a></li>
+      <li><a href="#" class="active">Monte seu Terço</a></li>
     </ul>
   </nav>
 
@@ -863,15 +860,15 @@
         return;
       }
 
-      // Salva dados no sessionStorage para a próxima página
+
       sessionStorage.setItem('bemAventurada_nome', nome);
       sessionStorage.setItem('bemAventurada_telefone', telefone);
       sessionStorage.setItem('bemAventurada_obs', document.getElementById('obs').value.trim());
 
-      window.location.href = '/checkout/finish';
+      window.location.href = 'conclusão.html';
     };
 
-    /* ── PHONE MASK ────────────────────────────────────────── */
+
     document.getElementById('telefone').addEventListener('input', (e) => {
       let v = e.target.value.replace(/\D/g, '');
       if (v.length > 11) v = v.slice(0, 11);
@@ -881,7 +878,7 @@
       e.target.value = v;
     });
 
-    /* ── INIT ──────────────────────────────────────────────── */
+
     renderOrder();
   </script>
 

@@ -1,55 +1,39 @@
-
-/**
- * ========================================
- * DADOS DO CATÁLOGO - Miçangas e Acessórios
- * ========================================
- */
 const catalog = {
     micancas: [
-        { id: 'm1', name: 'Cristal Azul', material: 'Cristal', price: 5, color: '#1e2d8a', shine: true },
-        { id: 'm2', name: 'Madeira de Oliveira', material: 'Madeira', price: 4, color: '#8b6f5c', shine: false },
-        { id: 'm3', name: 'Pérola Branca', material: 'Pérola', price: 8, color: '#f0ede6', shine: true },
-        { id: 'm4', name: 'Quartzo Rosa', material: 'Quartzo', price: 7, color: '#f0b8c4', shine: true },
-        { id: 'm5', name: 'Ônix Negro', material: 'Pedra', price: 6, color: '#1c1c1e', shine: true },
-        { id: 'm6', name: 'Ágata Vermelha', material: 'Pedra', price: 6, color: '#8b1e1e', shine: true },
-        { id: 'm7', name: 'Jade Verde', material: 'Pedra', price: 9, color: '#3a7a48', shine: true },
-        { id: 'm8', name: 'Âmbar Dourado', material: 'Resina', price: 7, color: '#b87d2a', shine: true },
+        { id: 'm1', name: 'Cristal Azul', material: 'Cristal', price: 7.50, color: '#1e2d8a', shine: true },
+        { id: 'm2', name: 'Madeira de Oliveira', material: 'Madeira', price: 7.50, color: '#8b6f5c', shine: false },
+        { id: 'm3', name: 'Pérola Branca', material: 'Pérola', price: 7.50, color: '#f0ede6', shine: true },
+        { id: 'm4', name: 'Quartzo Rosa', material: 'Quartzo', price: 7.50, color: '#f0b8c4', shine: true },
+        { id: 'm5', name: 'Ônix Negro', material: 'Pedra', price: 7.50, color: '#1c1c1e', shine: true },
+        { id: 'm6', name: 'Ágata Vermelha', material: 'Pedra', price: 7.50, color: '#8b1e1e', shine: true },
+        { id: 'm7', name: 'Jade Verde', material: 'Pedra', price: 7.50, color: '#3a7a48', shine: true },
+        { id: 'm8', name: 'Âmbar Dourado', material: 'Resina', price: 7.50, color: '#b87d2a', shine: true },
     ],
     passantes: [
-        { id: 'p1', name: 'Prata 925', material: 'Prata', price: 12, color: '#c0c0c0', shine: true },
-        { id: 'p2', name: 'Ouro Velho', material: 'Metal', price: 15, color: '#b8973a', shine: true },
-        { id: 'p3', name: 'Bronze Rústico', material: 'Bronze', price: 8, color: '#7d5a3c', shine: false },
-        { id: 'p4', name: 'Aço Inox', material: 'Metal', price: 6, color: '#adb5bd', shine: true },
+        { id: 'p1', name: 'Prata 925', material: 'Prata', price: 7.50, color: '#c0c0c0', shine: true },
+        { id: 'p2', name: 'Ouro Velho', material: 'Metal', price: 7.50, color: '#b8973a', shine: true },
+        { id: 'p3', name: 'Bronze Rústico', material: 'Bronze', price: 7.50, color: '#7d5a3c', shine: false },
+        { id: 'p4', name: 'Aço Inox', material: 'Metal', price: 7.50, color: '#adb5bd', shine: true },
     ],
-    entremeios: [
-        { id: 'e1', name: 'Flor de Lis', material: 'Metal', price: 10, color: '#b8973a', shine: true },
-        { id: 'e2', name: 'Coração', material: 'Pedra', price: 8, color: '#c0392b', shine: true },
-        { id: 'e3', name: 'Trevo', material: 'Resina', price: 7, color: '#2e7d32', shine: true },
-        { id: 'e4', name: 'Peixe Ichthys', material: 'Metal', price: 9, color: '#adb5bd', shine: true },
+    medalhas: [
+        { id: 'md1', name: 'Nossa Senhora de Fátima', material: 'Metal', price: 7.50, color: '#b8973a', shine: true },
+        { id: 'md2', name: 'Nossa Senhora Aparecida', material: 'Metal', price: 7.50, color: '#c0c0c0', shine: true },
+        { id: 'md3', name: 'Sagrado Coração', material: 'Metal', price: 7.50, color: '#c0392b', shine: true },
+        { id: 'md4', name: 'São Bento', material: 'Metal', price: 7.50, color: '#7d5a3c', shine: false },
     ],
     crucifixos: [
-        { id: 'c1', name: 'Crucifixo Prata', material: 'Prata', price: 25, color: '#c0c0c0', shine: true },
-        { id: 'c2', name: 'Crucifixo Ouro', material: 'Metal', price: 32, color: '#b8973a', shine: true },
-        { id: 'c3', name: 'Crucifixo Madeira', material: 'Madeira', price: 18, color: '#6d4c41', shine: false },
-        { id: 'c4', name: 'Crucifixo Bronze', material: 'Bronze', price: 22, color: '#7d5a3c', shine: false },
+        { id: 'c1', name: 'Crucifixo Prata', material: 'Prata', price: 7.50, color: '#c0c0c0', shine: true },
+        { id: 'c2', name: 'Crucifixo Ouro', material: 'Metal', price: 7.50, color: '#b8973a', shine: true },
+        { id: 'c3', name: 'Crucifixo Madeira', material: 'Madeira', price: 7.50, color: '#6d4c41', shine: false },
+        { id: 'c4', name: 'Crucifixo Bronze', material: 'Bronze', price: 7.50, color: '#7d5a3c', shine: false },
     ]
 };
 
-/**
- * ========================================
- * ESTADO - Itens selecionados pelo usuário
- * ========================================
- */
+
 const selected = {};
 
 
-/**
- * ========================================
- * CORES - Utilitários para manipular cores
- * ========================================
- */
 
-/** Converte HEX para RGB */
 const hexToRgb = (hex) => {
     const h = hex.replace('#', '');
     return [
@@ -59,25 +43,19 @@ const hexToRgb = (hex) => {
     ];
 };
 
-/** Clareia uma cor HEX */
+
 const lighten = (hex, percentage) => {
     const [r, g, b] = hexToRgb(hex);
     return `rgb(${Math.min(255, r + percentage)},${Math.min(255, g + percentage)},${Math.min(255, b + percentage)})`;
 };
 
-/** Escurece uma cor HEX */
+
 const darken = (hex, percentage) => {
     const [r, g, b] = hexToRgb(hex);
     return `rgb(${Math.max(0, r - percentage)},${Math.max(0, g - percentage)},${Math.max(0, b - percentage)})`;
 };
 
-/**
- * ========================================
- * GRADIENTES - Cria efeitos de brilho
- * ========================================
- */
 
-/** Gera gradiente para swatch (amostra de cor) */
 const buildSwatchGradient = (item) => {
     if (item.shine) {
         return `radial-gradient(circle at 35% 30%, ${lighten(item.color, 60)} 0%, ${item.color} 45%, ${darken(item.color, 30)} 100%)`;
@@ -85,7 +63,7 @@ const buildSwatchGradient = (item) => {
     return `radial-gradient(circle at 35% 30%, ${lighten(item.color, 20)} 0%, ${item.color} 60%, ${darken(item.color, 20)} 100%)`;
 };
 
-/** Gera gradiente radial SVG para contas (beads) */
+
 const buildCircleGradient = (hex, id) => {
     const light = lighten(hex, 70);
     const mid = hex;
@@ -99,13 +77,7 @@ const buildCircleGradient = (hex, id) => {
     return { defs };
 };
 
-/**
- * ========================================
- * CARTÕES - Construção da grid de itens
- * ========================================
- */
 
-/** Cria cards dos itens para cada categoria */
 const buildCards = (category, items) => {
     const grid = document.getElementById(`beadGrid-${category}`);
     grid.innerHTML = '';
@@ -129,13 +101,7 @@ const buildCards = (category, items) => {
     });
 };
 
-/**
- * ========================================
- * SELEÇÃO - Gerencia seleção de itens
- * ========================================
- */
 
-/** Alterna seleção de um item (clica = seleciona ou desseleciona) */
 const selectItem = (category, item) => {
     const isAlreadySelected = selected[category]?.id === item.id;
 
@@ -151,26 +117,16 @@ const selectItem = (category, item) => {
     updateSummary();
 };
 
-/**
- * ========================================
- * TOTAL - Calcula e exibe o valor total
- * ========================================
- */
 
-/** Atualiza o valor total dos itens selecionados */
+
+
 const updateTotal = () => {
     const total = Object.values(selected).reduce((sum, item) => sum + item.price, 0);
     const formattedTotal = total.toFixed(2).replace('.', ',');
     document.getElementById('totalDisplay').textContent = `R$ ${formattedTotal}`;
 };
 
-/**
- * ========================================
- * RESUMO - Lista de itens selecionados
- * ========================================
- */
 
-/** Exibe resumo dos itens selecionados */
 const updateSummary = () => {
     const box = document.getElementById('summaryItems');
     const entries = Object.entries(selected);
@@ -193,13 +149,7 @@ const updateSummary = () => {
     }).join('');
 };
 
-/**
- * ========================================
- * ROSÁRIO - SVG e Visualização do Terço
- * ========================================
- */
 
-// Configurações do SVG
 const ROSARY_CONFIG = {
     centerX: 150,
     centerY: 140,
@@ -217,11 +167,12 @@ const beadPos = (index, total, radius) => {
     };
 };
 
-/** Atualiza o desenho do rosário conforme seleções */
+
 const updateRosary = () => {
     const mainColor = selected.micancas?.color ?? '#1e2d8a';
     const separatorColor = selected.passantes?.color ?? '#b0a898';
-    const tailColor = selected.entremeios?.color ?? '#1e2d8a';
+    // Cor da cauda (entremeio/medalha) acompanha a cor das miçangas selecionadas
+    const tailColor = selected.micancas?.color ?? '#1e2d8a';
     const crossColor = selected.crucifixos?.color ?? '#9a8e80';
 
     updateMainBeads(mainColor, separatorColor);
@@ -229,7 +180,6 @@ const updateRosary = () => {
     updateCross(crossColor);
 };
 
-/** Renderiza as contas principais do rosário */
 const updateMainBeads = (mainColor, separatorColor) => {
     const mainG = document.getElementById('mainBeads');
     mainG.innerHTML = '';
@@ -292,7 +242,7 @@ const updateTailBeads = (tailColor) => {
     tailG.innerHTML = `<defs>${allDefs}</defs>${circlesHtml}`;
 };
 
-/** Atualiza cor da cruz do rosário */
+
 const updateCross = (crossColor) => {
     const crossG = document.getElementById('cross');
     crossG.querySelectorAll('rect').forEach(rect => {
@@ -300,13 +250,9 @@ const updateCross = (crossColor) => {
     });
 };
 
-/**
- * ========================================
- * NAVEGAÇÃO - Sistema de abas
- * ========================================
- */
 
-/** Gerencia clique nas abas de categorias */
+
+
 document.getElementById('tabBar').addEventListener('click', (event) => {
     const btn = event.target.closest('.tab-btn');
     if (!btn) return;
@@ -317,35 +263,35 @@ document.getElementById('tabBar').addEventListener('click', (event) => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
 
-    // Ativa o selecionado
     btn.classList.add('active');
     document.getElementById(`tab-${tabName}`).style.display = 'block';
 });
 
-/**
- * ========================================
- * PEDIDO - Submissão do formulário
- * ========================================
- */
 
-/** Salva seleção e avança para a página de pedido */
 const handleOrder = () => {
     if (!Object.keys(selected).length) {
         alert('Selecione ao menos um item para continuar.');
         return;
     }
 
-    // Persiste seleção para pedido.html
+
     sessionStorage.setItem('bemAventurada_selected', JSON.stringify(selected));
 
     window.location.href = '/checkout/pedido';
 };
 
-/**
- * ========================================
- * INICIALIZAÇÃO - Carrega tudo ao iniciar
- * ========================================
- */
+
 
 Object.entries(catalog).forEach(([category, items]) => buildCards(category, items));
+
+// Oculta todos os painéis e exibe apenas o ativo (miçangas)
+document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+document.getElementById('tab-micancas').style.display = 'block';
+
+// Pré-seleciona a primeira miçanga (Cristal Azul) ao iniciar
+selected.micancas = catalog.micancas[0];
+buildCards('micancas', catalog.micancas);
+
 updateRosary();
+updateTotal();
+updateSummary();
