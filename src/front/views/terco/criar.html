@@ -14,17 +14,23 @@
   <link rel="stylesheet" href="/public/css/style.css" />
   <link rel="stylesheet" href="/public/css/footer.css" />
   <link rel="stylesheet" href="/public/css/monte-seu-terco.css" />
+
+
 </head>
 
 <body>
 
-  
+
   <nav>
-    <div class="brand">Bem<span>Aventurada</span></div>
+    <div class="brand">
+      <img src="/public/images/logo.png" alt="Bem Aventurada">
+
+    </div>
+
     <ul class="nav-links">
-      <li><a href="/">Início</a></li>
+      <li><a href="/" class="active">Início</a></li>
       <li><a href="/galeria">Galeria</a></li>
-      <li><a href="/terco/criar" class="active">Monte seu Terço</a></li>
+      <li><a href="/terco/criar">Monte seu Terço</a></li>
     </ul>
   </nav>
 
@@ -36,7 +42,6 @@
 
       <div class="rosary-canvas">
         <svg id="rosarySvg" viewBox="0 0 300 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Thread -->
           <circle cx="150" cy="140" r="95" stroke="#c8bfb0" stroke-width="1.4" stroke-dasharray="2 1" fill="none" />
           <line x1="150" y1="235" x2="150" y2="285" stroke="#c8bfb0" stroke-width="1.4" />
 
@@ -67,7 +72,7 @@
       <div class="tab-bar" id="tabBar">
         <button class="tab-btn active" data-tab="micancas">Miçangas</button>
         <button class="tab-btn" data-tab="passantes">Passantes</button>
-        <button class="tab-btn" data-tab="entremeios">Entremeios</button>
+        <button class="tab-btn" data-tab="medalhas">Medalhas</button>
         <button class="tab-btn" data-tab="crucifixos">Crucifixos</button>
       </div>
 
@@ -81,9 +86,9 @@
         <div class="bead-grid" id="beadGrid-passantes"></div>
       </div>
 
-      <div class="tab-panel" id="tab-entremeios">
-        <p class="section-heading">Escolha os entremeios</p>
-        <div class="bead-grid" id="beadGrid-entremeios"></div>
+      <div class="tab-panel" id="tab-medalhas">
+        <p class="section-heading">Escolha a medalha</p>
+        <div class="bead-grid" id="beadGrid-medalhas"></div>
       </div>
 
       <div class="tab-panel" id="tab-crucifixos">
@@ -94,7 +99,7 @@
       <div class="ornament-divider">· · · ✦ · · ·</div>
       <p class="delivery-notice">
         Cada peça é montada à mão com materiais selecionados.<br>
-        Prazo de entrega: <strong>5 a 10 dias úteis</strong>.
+        Prazo de entrega: <strong>15 a 20 dias úteis</strong>.
       </p>
     </div>
 

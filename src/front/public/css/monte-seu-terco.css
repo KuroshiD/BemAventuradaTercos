@@ -1,9 +1,3 @@
-/* ========================================================
-   BEM AVENTURADA — monte-seu-terco.css
-   ======================================================== */
-
-/* ── MAIN LAYOUT ──────────────────────────────────────────── */
-
 main {
   position: relative;
   z-index: 1;
@@ -24,7 +18,7 @@ main {
   }
 }
 
-/* ── COLUNA ESQUERDA — PREVIEW ────────────────────────────── */
+
 
 .preview-col {
   position: sticky;
@@ -50,7 +44,7 @@ main {
   font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   font-size: 2.00rem;
   font-weight: 400;
-  color: #1a2557;
+  color: #17149d;
   margin-bottom: 28px;
   line-height: 1.1;
 }
@@ -89,7 +83,7 @@ main {
   filter: drop-shadow(0 4px 12px rgba(26, 37, 87, .12));
 }
 
-/* ── SELEÇÃO ATUAL (SUMMARY) ──────────────────────────────── */
+
 
 .selection-summary {
   margin-top: 24px;
@@ -119,7 +113,7 @@ main {
   justify-content: space-between;
   align-items: center;
   font-size: 0.80rem;
-  color: #1a2557;
+  color: #17149d;
 }
 
 .summary-item-empty {
@@ -142,7 +136,7 @@ main {
   font-size: 0.75rem;
 }
 
-/* ── TAB BAR ──────────────────────────────────────────────── */
+
 
 .tab-bar {
   display: flex;
@@ -168,28 +162,27 @@ main {
 }
 
 .tab-btn.active {
-  color: #1a2557;
-  border-bottom-color: #1a2557;
+  color: #17149d;
+  border-bottom-color: #17149d;
 }
 
 .tab-btn:hover:not(.active) {
-  color: #2b3a7a;
+  color: #17149d;
 }
 
-/* ── TAB PANELS ───────────────────────────────────────────── */
+
 
 .tab-panel {
   display: block;
 }
 
-/* Esconde os painéis inativos por padrão */
+
 #tab-passantes,
 #tab-entremeios,
 #tab-crucifixos {
   display: none;
 }
 
-/* ── SECTION HEADING ──────────────────────────────────────── */
 
 .section-heading {
   font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
@@ -200,7 +193,7 @@ main {
   letter-spacing: 0.03em;
 }
 
-/* ── BEAD GRID ────────────────────────────────────────────── */
+
 
 .bead-grid {
   display: grid;
@@ -309,7 +302,7 @@ main {
   font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   font-size: 1.05rem;
   font-weight: 600;
-  color: #1a2557;
+  color: #17149d;
   line-height: 1.2;
 }
 
@@ -325,7 +318,7 @@ main {
   font-weight: 500;
 }
 
-/* ── DIVIDER ORNAMENTAL ───────────────────────────────────── */
+
 
 .ornament-divider {
   text-align: center;
@@ -336,7 +329,7 @@ main {
   opacity: 0.5;
 }
 
-/* ── DELIVERY NOTICE ──────────────────────────────────────── */
+
 
 .delivery-notice {
   font-size: 0.75rem;
@@ -346,10 +339,10 @@ main {
 }
 
 .delivery-notice strong {
-  color: #1a2557;
+  color: #17149d;
 }
 
-/* ── FOOTER BAR ───────────────────────────────────────────── */
+
 
 .footer-bar {
   position: fixed;
@@ -380,14 +373,14 @@ main {
   font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   font-size: 1.80rem;
   font-weight: 500;
-  color: #1a2557;
+  color: #17149d;
   letter-spacing: 0.01em;
 }
 
-/* ── BOTÃO PRIMÁRIO ───────────────────────────────────────── */
+
 
 .btn-primary {
-  background: #1a2557;
+  background: #17149d;
   color: #ffffff;
   border: none;
   border-radius: 10px;
@@ -416,7 +409,7 @@ main {
 }
 
 .btn-primary:hover {
-  background: #2b3a7a;
+  background: #17149d;
   box-shadow: 0 6px 24px rgba(26, 37, 87, 0.35);
   transform: translateY(-1px);
 }

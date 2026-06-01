@@ -1,12 +1,6 @@
-/* ============================================================
-   BEM AVENTURADA — style.css
-   Estilos globais compartilhados por todas as páginas
-   Depende de: index.css (normalize)
-   ============================================================ */
-
 @import url('./index.css');
 
-/* ── GRAIN OVERLAY + PARCHMENT ────────────────────────────── */
+
 
 body {
   &::before {
@@ -32,7 +26,7 @@ body {
 }
 
 
-/* ── NAV ──────────────────────────────────────────────────── */
+
 
 nav {
   position: sticky;
@@ -55,29 +49,19 @@ nav {
 }
 
 .brand {
-  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  font-size: 1.45rem;
-  font-weight: 500;
-  color: #1a2557;
-  letter-spacing: 0.02em;
-  line-height: 1.15;
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 12px 0;
+}
 
-  span {
-    display: block;
-    font-style: italic;
-    font-weight: 300;
-    font-size: 1.1rem;
-    color: #b8973a;
-  }
 
-  @media (max-width: 768px) {
-    font-size: 1.2rem;
-
-    span {
-      font-size: 0.95rem;
-    }
-  }
+.brand img {
+  height: 170%;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  margin-left: 80px;
 }
 
 .nav-links {
@@ -95,12 +79,12 @@ nav {
     transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-      color: #1a2557;
+      color: #17149d;
     }
 
     &.active {
       color: #1a2557;
-      border-bottom: 2px solid #1a2557;
+      border-bottom: 2px solid #17149d;
       padding-bottom: 2px;
     }
   }
@@ -115,7 +99,7 @@ nav {
 }
 
 
-/* ── ANIMAÇÕES COMPARTILHADAS ─────────────────────────────── */
+
 
 @keyframes fadeUp {
   from {

@@ -7,9 +7,9 @@
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     background-color: #f7f5f0;
-    /* Tom de off-white do fundo do site */
+    
     color: #111439;
-    /* Azul escuro idêntico ao modelo */
+    
     min-height: 100-vh;
     display: flex;
     flex-direction: column;
@@ -99,7 +99,7 @@ body {
 
 .btn-primary {
     background-color: #111439;
-    /* Azul Escuro Real */
+   
     color: #ffffff;
     border: 1px solid #111439;
 }
