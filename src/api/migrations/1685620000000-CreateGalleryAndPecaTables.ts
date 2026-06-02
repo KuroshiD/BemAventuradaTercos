@@ -6,7 +6,7 @@ export class CreateGalleryAndPecaTables1685620000000 implements MigrationInterfa
       CREATE TABLE IF NOT EXISTS gallery_item (
         id VARCHAR PRIMARY KEY,
         title VARCHAR NOT NULL,
-        image_url VARCHAR NOT NULL,
+        image_url TEXT NOT NULL,
         description TEXT DEFAULT '',
         status VARCHAR NOT NULL,
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
