@@ -58,16 +58,10 @@
       <a href="/galeria" class="showcase-link">Ver todas as peças →</a>
     </div>
 
-    <div class="showcase-grid">
-      <div class="showcase-item">
-        <img src="/public/images/terco1.jpeg" alt="Terço artesanal 1" />
-      </div>
-      <div class="showcase-item">
-        <img src="/public/images/terco2.jpeg" alt="Terço artesanal 2" />
-      </div>
-      <div class="showcase-item">
-        <img src="/public/images/terco3.jpeg" alt="Terço artesanal 3" />
-      </div>
+    <div class="showcase-grid" id="showcaseGrid">
+      <div class="showcase-item placeholder">Carregando imagens...</div>
+      <div class="showcase-item placeholder">Carregando imagens...</div>
+      <div class="showcase-item placeholder">Carregando imagens...</div>
     </div>
   </section>
 
@@ -83,6 +77,56 @@
     </div>
   </footer>
 
+  <script>
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const currentPath = window.location.pathname.replace(/\/+$/, '');
+    navLinks.forEach((link) => {
+      const linkPath = link.getAttribute('href').replace(/\/+$/, '');
+      if (linkPath === currentPath) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+
+    const showcaseGrid = document.getElementById('showcaseGrid');
+
+    const pickRandomItems = (items, count) => {
+      const clone = [...items];
+      const chosen = [];
+      while (chosen.length < count && clone.length) {
+        const index = Math.floor(Math.random() * clone.length);
+        chosen.push(clone.splice(index, 1)[0]);
+      }
+      return chosen;
+    };
+
+    const renderShowcase = (items) => {
+      if (!items.length) {
+        showcaseGrid.innerHTML = '<div class="showcase-item">Nenhuma imagem disponível no momento.</div>';
+        return;
+      }
+
+      showcaseGrid.innerHTML = pickRandomItems(items, 3).map((item) => `
+        <div class="showcase-item">
+          <img src="${item.imageUrl}" alt="${item.title || 'Terço artesanal'}" />
+        </div>
+      `).join('');
+    };
+
+    const loadShowcaseImages = async () => {
+      try {
+        const response = await fetch('/api/galeria');
+        const items = await response.json();
+        renderShowcase(Array.isArray(items) ? items : []);
+      } catch (error) {
+        console.error('Falha ao carregar imagens da galeria:', error);
+        showcaseGrid.innerHTML = '<div class="showcase-item">Erro ao carregar imagens.</div>';
+      }
+    };
+
+    loadShowcaseImages();
+  </script>
 </body>
 
 </html>

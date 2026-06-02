@@ -143,6 +143,21 @@ main {
   gap: 0;
   border-bottom: 1px solid #e8e3db;
   margin-bottom: 28px;
+  position: sticky;
+  top: calc(68px + 16px);
+  z-index: 98;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  padding-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .tab-bar {
+    position: static;
+    top: auto;
+    background: transparent;
+    padding-top: 0;
+  }
 }
 
 .tab-btn {

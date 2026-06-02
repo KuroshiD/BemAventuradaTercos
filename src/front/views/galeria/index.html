@@ -47,119 +47,8 @@
     <div class="ornament-divider">· · · ✦ · · ·</div>
 
 
-    <div class="gallery-grid">
-
-      <div class="gallery-item">
-        <img src="/public/images\Terço Coroa das lágrimas.jpg" alt="Terço Coroa das lágrimas" />
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-text">
-            <h3>Terço Coroa das lágrimas</h3>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="/public/images\Terço infantil - Nossa Senhora Aparecida.jpg"
-          alt="Terço infantil - Nossa Senhora Aparecida" />
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-text">
-            <h3>Terço infantil - Nossa Senhora Aparecida</h3>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="/public/images/Terço personalizado com pingentes.jpg" alt="Terço Personalizado com Pingentes" />
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-text">
-            <h3>Terço Personalizado com Pingentes</h3>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="/public/images/Terço personalizado.jpg" alt="Terço Personalizado" />
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-text">
-            <h3>Terço Personalizado</h3>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="/public/images/Terço Santa Terezinha.jpg" alt="Terço Santa Terezinha" />
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-text">
-            <h3>Terço Santa Terezinha</h3>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="/public/images/Terço São José.jpg" alt="Terço São José" />
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-text">
-            <h3>Terço São José</h3>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="/public/images/Terço verde esmeralda.jpeg" alt="Terço Verde Esmeralda" />
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-text">
-            <h3>Terço Verde Esmeralda</h3>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="/public/images/terco1.jpeg" alt="Terço Azul com crucifixo dourado" />
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-text">
-            <h3>Terço Azul com crucifixo dourado</h3>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="/public/images/terco2.jpeg" alt="Terço Vermelho com crucifixo dourado" />
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-text">
-            <h3>Terço Vermelho com crucifixo dourado</h3>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="/public/images/terco3.jpeg" alt="Terço Preto com crucifixo prateado" />
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-text">
-            <h3>Terço Preto com crucifixo prateado</h3>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="gallery-item">
-        <img src="/public/images/terco4.jpg" alt="Terço Ágata Vermelha" />
-        <div class="gallery-item-overlay">
-          <div class="gallery-item-text">
-            <h3>Terço Ágata Vermelha</h3>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="empty-state">Carregando galeria...</div>
     </div>
 
 
@@ -185,6 +74,52 @@
     </div>
   </footer>
 
+  <script src="/public/script/api.js"></script>
+  <script>
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const currentPath = window.location.pathname.replace(/\/+$/, '');
+    navLinks.forEach((link) => {
+      const linkPath = link.getAttribute('href').replace(/\/+$/, '');
+      if (linkPath === currentPath) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+
+    const galleryGrid = document.getElementById('galleryGrid');
+
+    const renderGallery = (items) => {
+      if (!items.length) {
+        galleryGrid.innerHTML = '<div class="empty-state">Nenhuma imagem disponível no momento.</div>';
+        return;
+      }
+
+      galleryGrid.innerHTML = items.map((item) => `
+        <div class="gallery-item">
+          <img src="${item.imageUrl}" alt="${item.title}" />
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-text">
+              <h3>${item.title}</h3>
+              <p>${item.description || ''}</p>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    };
+
+    const loadGallery = async () => {
+      try {
+        const items = await ApiClient.get('/api/galeria');
+        renderGallery(Array.isArray(items) ? items : []);
+      } catch (error) {
+        console.error('Erro ao carregar galeria:', error);
+        galleryGrid.innerHTML = '<div class="empty-state">Falha ao carregar a galeria. Tente novamente mais tarde.</div>';
+      }
+    };
+
+    loadGallery();
+  </script>
 </body>
 
 </html>

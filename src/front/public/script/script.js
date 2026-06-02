@@ -1,4 +1,11 @@
-const catalog = {
+const CATEGORY_MAP = {
+    micancas: 'micancas',
+    passantes: 'passantes',
+    medalhas: 'entremeios',
+    crucifixos: 'crucifixos',
+};
+
+const fallbackCatalog = () => ({
     micancas: [
         { id: 'm1', name: 'Cristal Azul', material: 'Cristal', price: 7.50, color: '#1e2d8a', shine: true },
         { id: 'm2', name: 'Madeira de Oliveira', material: 'Madeira', price: 7.50, color: '#8b6f5c', shine: false },
@@ -27,12 +34,68 @@ const catalog = {
         { id: 'c3', name: 'Crucifixo Madeira', material: 'Madeira', price: 7.50, color: '#6d4c41', shine: false },
         { id: 'c4', name: 'Crucifixo Bronze', material: 'Bronze', price: 7.50, color: '#7d5a3c', shine: false },
     ]
+});
+
+let catalog = {
+    micancas: [],
+    passantes: [],
+    medalhas: [],
+    crucifixos: [],
 };
 
-
 const selected = {};
+const requiredCategories = ['micancas', 'passantes', 'medalhas', 'crucifixos'];
 
+const normalizeItem = (item) => ({
+    id: item.id,
+    name: item.name || '',
+    material: item.material || '',
+    price: Number(item.price) || 0,
+    color: item.color || '#c8bfb0',
+    shine: Boolean(item.shine),
+});
 
+const fetchCategoryItems = async (category) => {
+    const apiCategory = CATEGORY_MAP[category] || category;
+    try {
+        const items = await ApiClient.get(`/api/pecas/${apiCategory}`);
+        return Array.isArray(items) ? items.map(normalizeItem) : [];
+    } catch (error) {
+        console.warn(`Falha ao carregar ${category}:`, error);
+        return null;
+    }
+};
+
+const loadCatalog = async () => {
+    const categories = ['micancas', 'passantes', 'medalhas', 'crucifixos'];
+    const results = await Promise.all(categories.map((category) => fetchCategoryItems(category)));
+
+    if (results.some((items) => items === null)) {
+        catalog = fallbackCatalog();
+    } else {
+        catalog = {
+            micancas: results[0],
+            passantes: results[1],
+            medalhas: results[2],
+            crucifixos: results[3],
+        };
+    }
+
+    requiredCategories.forEach((category) => {
+        if (catalog[category]?.length) {
+            selected[category] = catalog[category][0];
+        }
+    });
+
+    Object.entries(catalog).forEach(([category, items]) => buildCards(category, items));
+    document.querySelectorAll('.tab-panel').forEach((p) => (p.style.display = 'none'));
+    document.getElementById('tab-micancas').style.display = 'block';
+    updateRosary();
+    updateTotal();
+    updateSummary();
+};
+
+loadCatalog();
 
 const hexToRgb = (hex) => {
     const h = hex.replace('#', '');
@@ -64,6 +127,9 @@ const buildSwatchGradient = (item) => {
 };
 
 
+const getShineEmoji = (item) => item.shine ? '💎' : '🔹';
+
+
 const buildCircleGradient = (hex, id) => {
     const light = lighten(hex, 70);
     const mid = hex;
@@ -89,11 +155,13 @@ const buildCards = (category, items) => {
         card.dataset.id = item.id;
 
         const formattedPrice = item.price.toFixed(2).replace('.', ',');
+        const shineEmoji = getShineEmoji(item);
         card.innerHTML = `
             <div class="bead-swatch" style="background:${buildSwatchGradient(item)}"></div>
             <div class="bead-info">
                 <div class="bead-name">${item.name}</div>
                 <div class="bead-meta">${item.material} · <span>R$ ${formattedPrice}</span></div>
+                <div style="font-size: 0.85em; color: var(--muted); margin-top: 0.25em;">${shineEmoji} ${item.shine ? 'Brilhoso' : 'Opaco'}</div>
             </div>`;
 
         card.addEventListener('click', () => selectItem(category, item));
@@ -103,14 +171,7 @@ const buildCards = (category, items) => {
 
 
 const selectItem = (category, item) => {
-    const isAlreadySelected = selected[category]?.id === item.id;
-
-    if (isAlreadySelected) {
-        delete selected[category];
-    } else {
-        selected[category] = item;
-    }
-
+    selected[category] = item;
     buildCards(category, catalog[category]);
     updateRosary();
     updateTotal();
@@ -138,11 +199,12 @@ const updateSummary = () => {
 
     box.innerHTML = entries.map(([category, item]) => {
         const formattedPrice = item.price.toFixed(2).replace('.', ',');
+        const shineEmoji = getShineEmoji(item);
         return `
             <div class="summary-item">
                 <span>
                     <span class="s-dot" style="background:${buildSwatchGradient(item)}"></span>
-                    ${item.name}
+                    ${item.name} ${shineEmoji}
                 </span>
                 <span class="s-price">R$ ${formattedPrice}</span>
             </div>`;
@@ -171,7 +233,6 @@ const beadPos = (index, total, radius) => {
 const updateRosary = () => {
     const mainColor = selected.micancas?.color ?? '#1e2d8a';
     const separatorColor = selected.passantes?.color ?? '#b0a898';
-    // Cor da cauda (entremeio/medalha) acompanha a cor das miçangas selecionadas
     const tailColor = selected.micancas?.color ?? '#1e2d8a';
     const crossColor = selected.crucifixos?.color ?? '#9a8e80';
 
@@ -269,29 +330,15 @@ document.getElementById('tabBar').addEventListener('click', (event) => {
 
 
 const handleOrder = () => {
-    if (!Object.keys(selected).length) {
-        alert('Selecione ao menos um item para continuar.');
+    const missingCategories = requiredCategories.filter((category) => !selected[category]);
+    if (missingCategories.length) {
+        alert('Selecione uma opção para todas as categorias antes de continuar.');
         return;
     }
 
-
     sessionStorage.setItem('bemAventurada_selected', JSON.stringify(selected));
-
     window.location.href = '/checkout/pedido';
 };
 
 
 
-Object.entries(catalog).forEach(([category, items]) => buildCards(category, items));
-
-// Oculta todos os painéis e exibe apenas o ativo (miçangas)
-document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
-document.getElementById('tab-micancas').style.display = 'block';
-
-// Pré-seleciona a primeira miçanga (Cristal Azul) ao iniciar
-selected.micancas = catalog.micancas[0];
-buildCards('micancas', catalog.micancas);
-
-updateRosary();
-updateTotal();
-updateSummary();

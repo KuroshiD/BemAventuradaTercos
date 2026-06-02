@@ -1,16 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Adm — Galeria · Bem Aventurada</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
   <style>
     /* ── RESET ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Jost', system-ui, sans-serif;
       background-color: #f5f2ed;
@@ -19,105 +32,229 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    a { color: inherit; text-decoration: none; }
-    button { background: none; border: none; cursor: pointer; color: inherit; font: inherit; }
-    img { display: block; max-width: 100%; }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: inherit;
+      font: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
 
     /* ── GRAIN ── */
     body::before {
       content: '';
-      position: fixed; inset: 0;
-      pointer-events: none; z-index: 0;
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       opacity: 0.55;
     }
+
     body::after {
       content: '';
-      position: fixed; inset: 0;
-      pointer-events: none; z-index: 0;
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(184,151,58,.06) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 80% at 80% 90%, rgba(26,37,87,.05) 0%, transparent 60%);
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(184, 151, 58, .06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 90%, rgba(26, 37, 87, .05) 0%, transparent 60%);
     }
 
     /* ── NAV ── */
     nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(245,242,237,0.92);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(245, 242, 237, 0.92);
       backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(184,151,58,0.20);
+      border-bottom: 1px solid rgba(184, 151, 58, 0.20);
       padding: 0 32px;
-      display: flex; align-items: center; gap: 40px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
       height: 68px;
     }
+
     .brand {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.45rem; font-weight: 500;
-      color: #1a2557; letter-spacing: 0.02em; flex-shrink: 0;
+      font-size: 1.45rem;
+      font-weight: 500;
+      color: #1a2557;
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
     }
-    .brand span { display: block; font-style: italic; font-weight: 300; font-size: 1.1rem; color: #b8973a; }
-    .nav-links { display: flex; gap: 32px; list-style: none; margin-left: auto; }
-    .nav-links a { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #7a7069; transition: color .25s; }
-    .nav-links a:hover { color: #1a2557; }
-    .nav-links a.active { color: #1a2557; border-bottom: 2px solid #1a2557; padding-bottom: 2px; }
+
+    .brand span {
+      display: block;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.1rem;
+      color: #b8973a;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      margin-left: auto;
+    }
+
+    .nav-links a {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #7a7069;
+      transition: color .25s;
+    }
+
+    .nav-links a:hover {
+      color: #1a2557;
+    }
+
+    .nav-links a.active {
+      color: #1a2557;
+      border-bottom: 2px solid #1a2557;
+      padding-bottom: 2px;
+    }
+
     .adm-badge {
-      font-size: 0.60rem; font-weight: 700; letter-spacing: 0.14em;
-      text-transform: uppercase; background: #b8973a; color: #fff;
-      padding: 3px 10px; border-radius: 999px;
+      font-size: 0.60rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: #b8973a;
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 999px;
     }
 
     /* ── PAGE WRAPPER ── */
     .page {
-      position: relative; z-index: 1;
-      max-width: 1100px; margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
       padding: 48px 24px 120px;
     }
 
     /* ── PAGE HEADER ── */
     .page-header {
-      display: flex; align-items: flex-end; justify-content: space-between;
-      margin-bottom: 36px; flex-wrap: wrap; gap: 16px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+      gap: 16px;
     }
+
     .page-eyebrow {
-      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.18em;
-      text-transform: uppercase; color: #b8973a; margin-bottom: 6px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #b8973a;
+      margin-bottom: 6px;
     }
+
     .page-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem; font-weight: 400; color: #1a2557; line-height: 1.1;
+      font-size: 2rem;
+      font-weight: 400;
+      color: #1a2557;
+      line-height: 1.1;
     }
-    .page-title em { font-style: italic; color: #b8973a; }
+
+    .page-title em {
+      font-style: italic;
+      color: #b8973a;
+    }
 
     /* ── BTN PRIMARY ── */
     .btn-primary {
-      background: #1a2557; color: #fff; border: none; border-radius: 10px;
-      padding: 13px 28px; font-family: 'Jost', sans-serif;
-      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em;
-      text-transform: uppercase; cursor: pointer;
+      background: #1a2557;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 28px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
       transition: background .25s, transform .25s, box-shadow .25s;
-      box-shadow: 0 4px 16px rgba(26,37,87,.25);
-      display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: 0 4px 16px rgba(26, 37, 87, .25);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
-    .btn-primary:hover { background: #2b3a7a; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(26,37,87,.35); }
+
+    .btn-primary:hover {
+      background: #2b3a7a;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(26, 37, 87, .35);
+    }
+
     .btn-ghost {
-      background: transparent; color: #7a7069; border: 1.5px solid #e8e3db;
-      border-radius: 8px; padding: 8px 16px;
-      font-size: 0.70rem; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase;
-      cursor: pointer; transition: border-color .2s, color .2s;
+      background: transparent;
+      color: #7a7069;
+      border: 1.5px solid #e8e3db;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 0.70rem;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
     }
-    .btn-ghost:hover { border-color: #1a2557; color: #1a2557; }
+
+    .btn-ghost:hover {
+      border-color: #1a2557;
+      color: #1a2557;
+    }
+
     .btn-danger {
-      background: transparent; color: #c0392b; border: 1.5px solid rgba(192,57,43,.25);
-      border-radius: 8px; padding: 8px 14px;
-      font-size: 0.70rem; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase;
-      cursor: pointer; transition: background .2s, border-color .2s;
+      background: transparent;
+      color: #c0392b;
+      border: 1.5px solid rgba(192, 57, 43, .25);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.70rem;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
     }
-    .btn-danger:hover { background: rgba(192,57,43,.07); border-color: #c0392b; }
+
+    .btn-danger:hover {
+      background: rgba(192, 57, 43, .07);
+      border-color: #c0392b;
+    }
 
     /* ── ORNAMENT ── */
     .ornament-divider {
-      text-align: center; color: #b8973a; font-size: 1rem;
-      letter-spacing: 0.50em; margin: 24px 0; opacity: 0.5;
+      text-align: center;
+      color: #b8973a;
+      font-size: 1rem;
+      letter-spacing: 0.50em;
+      margin: 24px 0;
+      opacity: 0.5;
     }
 
     /* ── GALLERY ADMIN GRID ── */
@@ -127,8 +264,18 @@
       gap: 20px;
       margin-bottom: 40px;
     }
-    @media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width: 600px) { .gallery-grid { grid-template-columns: 1fr; } }
+
+    @media (max-width: 900px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
 
     .gallery-card {
       background: #fff;
@@ -138,7 +285,12 @@
       transition: box-shadow .25s, border-color .25s, transform .25s;
       animation: fadeUp .4s ease both;
     }
-    .gallery-card:hover { box-shadow: 0 12px 36px rgba(26,37,87,.14); border-color: rgba(184,151,58,.40); transform: translateY(-2px); }
+
+    .gallery-card:hover {
+      box-shadow: 0 12px 36px rgba(26, 37, 87, .14);
+      border-color: rgba(184, 151, 58, .40);
+      transform: translateY(-2px);
+    }
 
     .gallery-card-img {
       position: relative;
@@ -146,185 +298,440 @@
       background: #f0ece5;
       overflow: hidden;
     }
-    .gallery-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
-    .gallery-card:hover .gallery-card-img img { transform: scale(1.05); }
+
+    .gallery-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s;
+    }
+
+    .gallery-card:hover .gallery-card-img img {
+      transform: scale(1.05);
+    }
 
     .img-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 8px; color: #b8b0a6;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #b8b0a6;
     }
-    .img-placeholder svg { width: 36px; height: 36px; opacity: .5; }
-    .img-placeholder span { font-size: 0.70rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .img-placeholder svg {
+      width: 36px;
+      height: 36px;
+      opacity: .5;
+    }
+
+    .img-placeholder span {
+      font-size: 0.70rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
 
     .status-dot {
-      position: absolute; top: 12px; right: 12px;
-      width: 10px; height: 10px; border-radius: 50%;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
       border: 2px solid #fff;
     }
-    .status-dot.active { background: #27ae60; }
-    .status-dot.hidden { background: #e67e22; }
 
-    .gallery-card-body { padding: 16px 18px 18px; }
+    .status-dot.active {
+      background: #27ae60;
+    }
+
+    .status-dot.hidden {
+      background: #e67e22;
+    }
+
+    .gallery-card-body {
+      padding: 16px 18px 18px;
+    }
+
     .card-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem; font-weight: 600; color: #1a2557;
-      margin-bottom: 4px; line-height: 1.2;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #1a2557;
+      margin-bottom: 4px;
+      line-height: 1.2;
     }
-    .card-desc { font-size: 0.72rem; color: #7a7069; margin-bottom: 14px; line-height: 1.5; }
 
-    .card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .card-desc {
+      font-size: 0.72rem;
+      color: #7a7069;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
     /* ── ADD CARD ── */
     .gallery-card.add-card {
-      border: 1.5px dashed rgba(184,151,58,.40);
-      background: linear-gradient(135deg, rgba(26,37,87,.02) 0%, rgba(184,151,58,.03) 100%);
-      display: flex; align-items: center; justify-content: center;
-      min-height: 320px; cursor: pointer;
+      border: 1.5px dashed rgba(184, 151, 58, .40);
+      background: linear-gradient(135deg, rgba(26, 37, 87, .02) 0%, rgba(184, 151, 58, .03) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      cursor: pointer;
       transition: border-color .25s, background .25s, transform .25s;
     }
-    .gallery-card.add-card:hover { border-color: #b8973a; background: rgba(184,151,58,.05); transform: translateY(-2px); }
-    .add-card-inner { text-align: center; color: #b8973a; }
-    .add-card-inner svg { width: 32px; height: 32px; margin: 0 auto 10px; opacity: .7; }
-    .add-card-inner p { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+
+    .gallery-card.add-card:hover {
+      border-color: #b8973a;
+      background: rgba(184, 151, 58, .05);
+      transform: translateY(-2px);
+    }
+
+    .add-card-inner {
+      text-align: center;
+      color: #b8973a;
+    }
+
+    .add-card-inner svg {
+      width: 32px;
+      height: 32px;
+      margin: 0 auto 10px;
+      opacity: .7;
+    }
+
+    .add-card-inner p {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
 
     /* ── MODAL ── */
     .modal-backdrop {
-      position: fixed; inset: 0; z-index: 200;
-      background: rgba(26,37,87,.45);
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(26, 37, 87, .45);
       backdrop-filter: blur(6px);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 24px;
-      opacity: 0; pointer-events: none;
+      opacity: 0;
+      pointer-events: none;
       transition: opacity .25s;
     }
-    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
 
     .modal {
       background: #faf8f4;
       border-radius: 20px;
-      border: 1px solid rgba(184,151,58,.20);
+      border: 1px solid rgba(184, 151, 58, .20);
       padding: 40px;
-      width: 100%; max-width: 520px;
-      box-shadow: 0 24px 64px rgba(26,37,87,.25);
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 24px 64px rgba(26, 37, 87, .25);
       transform: translateY(24px);
-      transition: transform .3s cubic-bezier(.4,0,.2,1);
+      transition: transform .3s cubic-bezier(.4, 0, .2, 1);
       position: relative;
     }
-    .modal-backdrop.open .modal { transform: translateY(0); }
+
+    .modal-backdrop.open .modal {
+      transform: translateY(0);
+    }
 
     .modal-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.65rem; font-weight: 400; color: #1a2557;
+      font-size: 1.65rem;
+      font-weight: 400;
+      color: #1a2557;
       margin-bottom: 28px;
     }
-    .modal-close {
-      position: absolute; top: 20px; right: 20px;
-      width: 32px; height: 32px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(26,37,87,.06); color: #7a7069;
-      cursor: pointer; transition: background .2s;
-    }
-    .modal-close:hover { background: rgba(26,37,87,.12); }
-    .modal-close svg { width: 16px; height: 16px; }
 
-    .form-group { margin-bottom: 20px; }
-    .form-label { display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase; color: #7a7069; margin-bottom: 8px; }
-    .form-input, .form-textarea {
-      width: 100%; background: #fff;
-      border: 1.5px solid #e8e3db; border-radius: 10px;
-      padding: 12px 16px; font-family: 'Jost', sans-serif;
-      font-size: 0.88rem; color: #1a2557; outline: none;
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(26, 37, 87, .06);
+      color: #7a7069;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .modal-close:hover {
+      background: rgba(26, 37, 87, .12);
+    }
+
+    .modal-close svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: #7a7069;
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: #fff;
+      border: 1.5px solid #e8e3db;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.88rem;
+      color: #1a2557;
+      outline: none;
       transition: border-color .2s, box-shadow .2s;
     }
-    .form-input:focus, .form-textarea:focus {
+
+    .form-input:focus,
+    .form-textarea:focus {
       border-color: #b8973a;
-      box-shadow: 0 0 0 3px rgba(184,151,58,.12);
+      box-shadow: 0 0 0 3px rgba(184, 151, 58, .12);
     }
-    .form-textarea { resize: vertical; min-height: 90px; }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
 
     .upload-zone {
-      border: 1.5px dashed rgba(184,151,58,.40); border-radius: 10px;
-      background: rgba(184,151,58,.03);
-      padding: 28px 20px; text-align: center; cursor: pointer;
+      border: 1.5px dashed rgba(184, 151, 58, .40);
+      border-radius: 10px;
+      background: rgba(184, 151, 58, .03);
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
       transition: border-color .2s, background .2s;
     }
-    .upload-zone:hover { border-color: #b8973a; background: rgba(184,151,58,.07); }
-    .upload-zone svg { width: 28px; height: 28px; margin: 0 auto 8px; color: #b8973a; opacity: .7; }
-    .upload-zone p { font-size: 0.72rem; color: #7a7069; letter-spacing: 0.06em; }
-    .upload-zone p strong { color: #1a2557; }
 
-    .toggle-group { display: flex; gap: 12px; }
-    .toggle-option { display: none; }
+    .upload-zone:hover {
+      border-color: #b8973a;
+      background: rgba(184, 151, 58, .07);
+    }
+
+    .upload-zone svg {
+      width: 28px;
+      height: 28px;
+      margin: 0 auto 8px;
+      color: #b8973a;
+      opacity: .7;
+    }
+
+    .upload-zone p {
+      font-size: 0.72rem;
+      color: #7a7069;
+      letter-spacing: 0.06em;
+    }
+
+    .upload-zone p strong {
+      color: #1a2557;
+    }
+
+    .toggle-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .toggle-option {
+      display: none;
+    }
+
     .toggle-label {
-      padding: 10px 20px; border-radius: 8px; border: 1.5px solid #e8e3db;
-      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.10em;
-      text-transform: uppercase; color: #7a7069; cursor: pointer;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: 1.5px solid #e8e3db;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: #7a7069;
+      cursor: pointer;
       transition: border-color .2s, color .2s, background .2s;
     }
-    .toggle-option:checked + .toggle-label {
-      border-color: #1a2557; color: #1a2557;
-      background: rgba(26,37,87,.05);
+
+    .toggle-option:checked+.toggle-label {
+      border-color: #1a2557;
+      color: #1a2557;
+      background: rgba(26, 37, 87, .05);
     }
 
-    .modal-footer { display: flex; gap: 12px; justify-content: flex-end; margin-top: 28px; }
+    .modal-footer {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 28px;
+    }
 
     /* ── TOAST ── */
     .toast {
-      position: fixed; bottom: 32px; right: 32px; z-index: 300;
-      background: #1a2557; color: #fff;
-      padding: 14px 22px; border-radius: 10px;
-      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em;
-      box-shadow: 0 8px 32px rgba(26,37,87,.35);
-      transform: translateY(80px); opacity: 0;
-      transition: transform .3s cubic-bezier(.4,0,.2,1), opacity .3s;
-      display: flex; align-items: center; gap: 10px;
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 300;
+      background: #1a2557;
+      color: #fff;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      box-shadow: 0 8px 32px rgba(26, 37, 87, .35);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: transform .3s cubic-bezier(.4, 0, .2, 1), opacity .3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .toast.show { transform: translateY(0); opacity: 1; }
-    .toast svg { width: 18px; height: 18px; color: #b8973a; flex-shrink: 0; }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast svg {
+      width: 18px;
+      height: 18px;
+      color: #b8973a;
+      flex-shrink: 0;
+    }
 
     /* ── CONFIRM DIALOG ── */
     .confirm-backdrop {
-      position: fixed; inset: 0; z-index: 300;
-      background: rgba(26,37,87,.50);
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(26, 37, 87, .50);
       backdrop-filter: blur(4px);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 24px;
-      opacity: 0; pointer-events: none; transition: opacity .2s;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s;
     }
-    .confirm-backdrop.open { opacity: 1; pointer-events: all; }
+
+    .confirm-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
     .confirm-box {
-      background: #faf8f4; border-radius: 16px; padding: 32px;
-      max-width: 380px; width: 100%;
-      box-shadow: 0 16px 48px rgba(26,37,87,.25);
-      border: 1px solid rgba(184,151,58,.15);
-      transform: scale(.96); transition: transform .25s;
+      background: #faf8f4;
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 380px;
+      width: 100%;
+      box-shadow: 0 16px 48px rgba(26, 37, 87, .25);
+      border: 1px solid rgba(184, 151, 58, .15);
+      transform: scale(.96);
+      transition: transform .25s;
     }
-    .confirm-backdrop.open .confirm-box { transform: scale(1); }
-    .confirm-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; color: #1a2557; margin-bottom: 12px; }
-    .confirm-box p { font-size: 0.80rem; color: #7a7069; line-height: 1.6; margin-bottom: 24px; }
-    .confirm-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+    .confirm-backdrop.open .confirm-box {
+      transform: scale(1);
+    }
+
+    .confirm-box h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      color: #1a2557;
+      margin-bottom: 12px;
+    }
+
+    .confirm-box p {
+      font-size: 0.80rem;
+      color: #7a7069;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
 
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* ── FOOTER ── */
     footer {
-      position: relative; z-index: 1;
-      background: rgba(245,242,237,.96);
+      position: relative;
+      z-index: 1;
+      background: rgba(245, 242, 237, .96);
       backdrop-filter: blur(16px);
-      border-top: 1px solid rgba(184,151,58,.20);
+      border-top: 1px solid rgba(184, 151, 58, .20);
       padding: 36px 24px;
       text-align: center;
     }
-    .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 500; color: #1a2557; }
-    .footer-brand em { display: block; font-style: italic; font-weight: 300; font-size: .95rem; color: #b8973a; }
-    .footer-copy { margin-top: 16px; font-size: 0.68rem; color: #7a7069; opacity: .6; }
+
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #1a2557;
+    }
+
+    .footer-brand em {
+      display: block;
+      font-style: italic;
+      font-weight: 300;
+      font-size: .95rem;
+      color: #b8973a;
+    }
+
+    .footer-copy {
+      margin-top: 16px;
+      font-size: 0.68rem;
+      color: #7a7069;
+      opacity: .6;
+    }
   </style>
 </head>
+
 <body>
 
   <!-- NAV -->
@@ -346,7 +753,10 @@
         <h1 class="page-title">Galeria de <em>Terços</em></h1>
       </div>
       <button class="btn-primary" onclick="openAddModal()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="2"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
         Nova Peça
       </button>
     </div>
@@ -367,7 +777,9 @@
   <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal(event)">
     <div class="modal">
       <button class="modal-close" onclick="closeAddModal()">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
       </button>
       <h2 class="modal-title" id="modalTitle">Nova Peça</h2>
 
@@ -382,8 +794,11 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label">URL da imagem</label>
-        <input type="text" class="form-input" id="fieldImg" placeholder="images/terco_exemplo.jpg" />
+        <label class="form-label">Arquivo de imagem</label>
+        <input type="file" class="form-input" id="fieldImgFile" accept="image/*" />
+        <div id="imagePreview" style="margin-top: 12px; text-align: center; display: none;">
+          <img id="previewImg" style="max-width: 100%; max-height: 200px; border-radius: 8px;" />
+        </div>
       </div>
 
       <div class="form-group">
@@ -417,36 +832,77 @@
 
   <!-- TOAST -->
   <div class="toast" id="toast">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+    </svg>
     <span id="toastMsg">Salvo com sucesso!</span>
   </div>
 
-<script>
-  // ── DATA ──────────────────────────────────────────────────
-  let items = JSON.parse(localStorage.getItem('ba_gallery') || 'null') || [
-    { id: 1, name: 'Terço Lápis-Lazúli',     desc: 'Cristal azul com crucifixo prateado',   img: 'images/terco_azul.png',           status: 'active' },
-    { id: 2, name: 'Terço Madeira de Oliveira', desc: 'Madeira natural com bronze antigo',  img: 'images/terco_madeira.jpg',         status: 'active' },
-    { id: 3, name: 'Terço Pérola Dourada',    desc: 'Pérolas brancas com detalhes em ouro', img: 'images/terco_perola_dourada.webp', status: 'active' },
-    { id: 4, name: 'Terço Granada',           desc: 'Cristal vermelho com prata ornamentada',img: 'images/terco_granada.jpg',        status: 'active' },
-    { id: 5, name: 'Terço Quartzo Rosa',      desc: 'Quartzo rosa com crucifixo prateado',  img: 'images/terco_quartzo_rosa.webp',   status: 'active' },
-    { id: 6, name: 'Terço Obsidiana',         desc: 'Contas de obsidiana preta com cruz escura', img: 'images/terco_obsidiana.jpg',  status: 'active' },
-  ];
-  let editingId = null;
-  let deletingId = null;
-  let nextId = items.length ? Math.max(...items.map(i=>i.id)) + 1 : 1;
+  <script src="/public/script/api.js"></script>
+  <script>
+    const TOKEN_STORAGE_KEY = 'ba_admin_token';
+    let items = [];
+    let editingImage = '';
+    let editingId = null;
+    let deletingId = null;
 
-  function save() { localStorage.setItem('ba_gallery', JSON.stringify(items)); }
+    const authClient = () => {
+      const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+      if (!token) {
+        window.location.href = '/admin';
+        throw new Error('Não autenticado');
+      }
+      return ApiClient.withAuth(token);
+    };
 
-  // ── RENDER ────────────────────────────────────────────────
-  function render() {
-    const grid = document.getElementById('galleryGrid');
-    grid.innerHTML = '';
+    const normalizeItem = (item) => ({
+      id: item.id,
+      name: item.title || '',
+      desc: item.description || '',
+      img: item.imageUrl || '',
+      status: item.status === 'inactive' ? 'hidden' : item.status || 'hidden',
+    });
 
-    items.forEach((item, idx) => {
-      const card = document.createElement('div');
-      card.className = 'gallery-card';
-      card.style.animationDelay = (idx * 0.06) + 's';
-      card.innerHTML = `
+    const showToast = (msg) => {
+      const t = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      t.classList.add('show');
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+    };
+
+    const showError = (message) => {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      toast.style.background = '#c0392b';
+      document.getElementById('toastMsg').textContent = message;
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+        toast.style.background = '';
+      }, 4200);
+    };
+
+    const handleApiError = (error) => {
+      const message = error?.body?.error || error?.message || 'Erro na comunicação com a API.';
+      if (error?.status === 401) {
+        localStorage.removeItem(TOKEN_STORAGE_KEY);
+        window.location.href = '/admin';
+        return;
+      }
+      showError(message);
+    };
+
+    const render = () => {
+      const grid = document.getElementById('galleryGrid');
+      grid.innerHTML = '';
+
+      items.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'gallery-card';
+        card.style.animationDelay = (idx * 0.06) + 's';
+        card.innerHTML = `
         <div class="gallery-card-img">
           ${item.img
             ? `<img src="${item.img}" alt="${item.name}" onerror="this.parentElement.innerHTML='<div class=\\'img-placeholder\\'><svg xmlns=\\'http://www.w3.org/2000/svg\\' fill=\\'none\\' viewBox=\\'0 0 24 24\\' stroke-width=\\'1.5\\' stroke=\\'currentColor\\'><path stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' d=\\'m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z\\'/></svg><span>Sem imagem</span></div>'">`
@@ -458,97 +914,209 @@
           <p class="card-name">${item.name}</p>
           <p class="card-desc">${item.desc}</p>
           <div class="card-actions">
-            <button class="btn-ghost" onclick="openEditModal(${item.id})">Editar</button>
-            <button class="btn-ghost" onclick="toggleStatus(${item.id})">${item.status === 'active' ? 'Ocultar' : 'Mostrar'}</button>
-            <button class="btn-danger" onclick="openConfirm(${item.id})">Remover</button>
+            <button class="btn-ghost" onclick="openEditModal('${item.id}')">Editar</button>
+            <button class="btn-ghost" onclick="toggleStatus('${item.id}')">${item.status === 'active' ? 'Ocultar' : 'Mostrar'}</button>
+            <button class="btn-danger" onclick="openConfirm('${item.id}')">Remover</button>
           </div>
         </div>`;
-      grid.appendChild(card);
-    });
+        grid.appendChild(card);
+      });
 
-    // Add card
-    const addCard = document.createElement('div');
-    addCard.className = 'gallery-card add-card';
-    addCard.onclick = openAddModal;
-    addCard.innerHTML = `<div class="add-card-inner">
+      const addCard = document.createElement('div');
+      addCard.className = 'gallery-card add-card';
+      addCard.onclick = openAddModal;
+      addCard.innerHTML = `<div class="add-card-inner">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
       <p>Adicionar peça</p>
     </div>`;
-    grid.appendChild(addCard);
-  }
+      grid.appendChild(addCard);
+    };
 
-  // ── MODAL ─────────────────────────────────────────────────
-  function openAddModal() {
-    editingId = null;
-    document.getElementById('modalTitle').textContent = 'Nova Peça';
-    document.getElementById('fieldName').value = '';
-    document.getElementById('fieldDesc').value = '';
-    document.getElementById('fieldImg').value = '';
-    document.getElementById('statusActive').checked = true;
-    document.getElementById('modalBackdrop').classList.add('open');
-  }
+    const updateGallery = async () => {
+      try {
+        const itemsFromApi = await authClient().get('/adm/galeria');
+        items = itemsFromApi.map(normalizeItem);
+        render();
+      } catch (error) {
+        handleApiError(error);
+      }
+    };
 
-  function openEditModal(id) {
-    const item = items.find(i => i.id === id);
-    if (!item) return;
-    editingId = id;
-    document.getElementById('modalTitle').textContent = 'Editar Peça';
-    document.getElementById('fieldName').value = item.name;
-    document.getElementById('fieldDesc').value = item.desc;
-    document.getElementById('fieldImg').value = item.img;
-    document.getElementById(item.status === 'active' ? 'statusActive' : 'statusHidden').checked = true;
-    document.getElementById('modalBackdrop').classList.add('open');
-  }
+    const openAddModal = () => {
+      editingId = null;
+      editingImage = '';
+      document.getElementById('modalTitle').textContent = 'Nova Peça';
+      document.getElementById('fieldName').value = '';
+      document.getElementById('fieldDesc').value = '';
+      document.getElementById('fieldImgFile').value = '';
+      document.getElementById('imagePreview').style.display = 'none';
+      document.getElementById('statusActive').checked = true;
+      document.getElementById('modalBackdrop').classList.add('open');
+    };
 
-  function closeAddModal() { document.getElementById('modalBackdrop').classList.remove('open'); }
-  function closeModal(e) { if (e.target === document.getElementById('modalBackdrop')) closeAddModal(); }
+    const openEditModal = (id) => {
+      const item = items.find(i => String(i.id) === String(id));
+      if (!item) return;
+      editingId = item.id;
+      editingImage = item.img || '';
+      document.getElementById('modalTitle').textContent = 'Editar Peça';
+      document.getElementById('fieldName').value = item.name;
+      document.getElementById('fieldDesc').value = item.desc;
+      document.getElementById('fieldImgFile').value = '';
+      document.getElementById(item.status === 'active' ? 'statusActive' : 'statusHidden').checked = true;
+      
+      // Mostrar preview da imagem existente
+      const previewDiv = document.getElementById('imagePreview');
+      const previewImg = document.getElementById('previewImg');
+      if (editingImage) {
+        previewImg.src = editingImage;
+        previewDiv.style.display = 'block';
+      } else {
+        previewDiv.style.display = 'none';
+      }
+      
+      document.getElementById('modalBackdrop').classList.add('open');
+    };
 
-  function saveItem() {
-    const name = document.getElementById('fieldName').value.trim();
-    const desc = document.getElementById('fieldDesc').value.trim();
-    const img  = document.getElementById('fieldImg').value.trim();
-    const status = document.querySelector('input[name="status"]:checked').value;
-    if (!name) { document.getElementById('fieldName').focus(); return; }
+    const closeAddModal = () => {
+      document.getElementById('modalBackdrop').classList.remove('open');
+    };
 
-    if (editingId) {
-      const item = items.find(i => i.id === editingId);
-      Object.assign(item, { name, desc, img, status });
-      showToast('Peça atualizada!');
-    } else {
-      items.push({ id: nextId++, name, desc, img, status });
-      showToast('Peça adicionada!');
-    }
-    save(); render(); closeAddModal();
-  }
+    const closeModal = (e) => {
+      if (e.target === document.getElementById('modalBackdrop')) closeAddModal();
+    };
 
-  // ── TOGGLE STATUS ─────────────────────────────────────────
-  function toggleStatus(id) {
-    const item = items.find(i => i.id === id);
-    item.status = item.status === 'active' ? 'hidden' : 'active';
-    save(); render();
-    showToast(item.status === 'active' ? 'Peça visível na galeria.' : 'Peça ocultada da galeria.');
-  }
+    const buildGalleryPayload = (name, desc, status, file) => {
+      const formData = new FormData();
+      formData.append('title', name);
+      formData.append('description', desc);
+      formData.append('status', status === 'hidden' ? 'inactive' : 'active');
+      if (file) {
+        formData.append('image', file);
+      } else if (editingImage) {
+        formData.append('imageUrl', editingImage);
+      }
+      return formData;
+    };
 
-  // ── DELETE ────────────────────────────────────────────────
-  function openConfirm(id) { deletingId = id; document.getElementById('confirmBackdrop').classList.add('open'); }
-  function closeConfirm()  { deletingId = null; document.getElementById('confirmBackdrop').classList.remove('open'); }
-  function confirmDelete() {
-    items = items.filter(i => i.id !== deletingId);
-    save(); render(); closeConfirm();
-    showToast('Peça removida.');
-  }
+    const saveItem = async () => {
+      const name = document.getElementById('fieldName').value.trim();
+      const desc = document.getElementById('fieldDesc').value.trim();
+      const fileInput = document.getElementById('fieldImgFile');
+      const file = fileInput?.files?.[0];
+      const status = document.querySelector('input[name="status"]:checked').value;
 
-  // ── TOAST ─────────────────────────────────────────────────
-  let toastTimer;
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    document.getElementById('toastMsg').textContent = msg;
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
-  }
+      if (!name) {
+        document.getElementById('fieldName').focus();
+        return;
+      }
 
-  render();
-</script>
+      if (!file && !editingImage) {
+        showError('Faça upload da imagem antes de salvar a peça.');
+        return;
+      }
+
+      const payload = buildGalleryPayload(name, desc, status, file);
+      const action = editingId ? 'atualizada' : 'adicionada';
+
+      try {
+        let updated;
+        if (editingId) {
+          // Usar PUT para editar
+          updated = await authClient().putForm(`/adm/galeria/${editingId}`, payload);
+        } else {
+          // Usar POST para criar
+          updated = await authClient().postForm('/adm/galeria', payload);
+        }
+        
+        const normalized = normalizeItem(updated);
+        
+        if (editingId) {
+          items = items.map((item) => item.id === editingId ? normalized : item);
+        } else {
+          items.push(normalized);
+        }
+        
+        showToast(`Peça ${action}!`);
+        render();
+        closeAddModal();
+      } catch (error) {
+        handleApiError(error);
+      }
+    };
+
+    const toggleStatus = async (id) => {
+      const item = items.find(i => String(i.id) === String(id));
+      if (!item) return;
+
+      const nextStatus = item.status === 'active' ? 'inactive' : 'active';
+
+      try {
+        const updated = await authClient().patch(`/adm/galeria/${id}/status`, { status: nextStatus });
+        items = items.map((current) => current.id === updated.id ? normalizeItem(updated) : current);
+        render();
+        showToast(updated.status === 'active' ? 'Peça visível na galeria.' : 'Peça ocultada da galeria.');
+      } catch (error) {
+        handleApiError(error);
+      }
+    };
+
+    const openConfirm = (id) => {
+      deletingId = id;
+      document.getElementById('confirmBackdrop').classList.add('open');
+    };
+
+    const closeConfirm = () => {
+      deletingId = null;
+      document.getElementById('confirmBackdrop').classList.remove('open');
+    };
+
+    const confirmDelete = async () => {
+      if (!deletingId) return;
+      try {
+        await authClient().delete(`/adm/galeria/${deletingId}`);
+        items = items.filter((item) => String(item.id) !== String(deletingId));
+        render();
+        closeConfirm();
+        showToast('Peça removida.');
+      } catch (error) {
+        handleApiError(error);
+      }
+    };
+
+    // Auto-fill name field when image is selected
+    document.getElementById('fieldImgFile')?.addEventListener('change', (e) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        // Mostrar preview da imagem selecionada
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const previewImg = document.getElementById('previewImg');
+          const previewDiv = document.getElementById('imagePreview');
+          previewImg.src = event.target.result;
+          previewDiv.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+
+        // Auto-fill name se estiver vazio
+        const nameField = document.getElementById('fieldName');
+        if (!nameField.value.trim()) {
+          const fileName = file.name.replace(/\.[^/.]+$/, '');
+          nameField.value = fileName;
+        }
+      }
+    });
+
+    window.openEditModal = openEditModal;
+    window.openAddModal = openAddModal;
+    window.openConfirm = openConfirm;
+    window.closeConfirm = closeConfirm;
+    window.closeModal = closeModal;
+    window.saveItem = saveItem;
+    window.toggleStatus = toggleStatus;
+
+    document.addEventListener('DOMContentLoaded', updateGallery);
+  </script>
 </body>
+
 </html>

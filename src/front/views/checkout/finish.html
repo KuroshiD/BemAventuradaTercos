@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bem Aventurada - Pedido Concluído</title>
-    <link rel="stylesheet" href="/publiccss/conclusao.css">
-    <link rel="stylesheet" href="/publiccss/index-home.css" />
-    <link rel="stylesheet" href="/publiccss/style.css">
-    <link rel="stylesheet" href="/publiccss/footer.css">
+    <link rel="stylesheet" href="/public/css/conclusao.css">
+    <link rel="stylesheet" href="/public/css/index-home.css" />
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/css/footer.css">
 
 </head>
 
@@ -48,9 +48,10 @@
 
             <div class="button-inicio">
                 <a href="/" class="btn btn-primary">VOLTAR À PÁGINA INICIAL</a>
+                <a id="sendOrderBtn" href="#" class="btn btn-secondary">ENVIAR PEDIDO VIA WHATSAPP</a>
             </div>
 
-            <p class="footer-note">Um e-mail de confirmação foi enviado para você.</p>
+            <p class="footer-note">Obrigado por comprar na Bem Aventurada — que seu terço seja abençoado e traga muita paz.</p>
         </div>
     </main>
 
@@ -137,8 +138,15 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             renderOrderDetails();
+            const sendButton = document.getElementById('sendOrderBtn');
+
+            if (!sendButton) return;
+
             if (itemLines.length) {
-                window.location.href = whatsappUrl;
+                sendButton.setAttribute('href', whatsappUrl);
+                sendButton.setAttribute('target', '_blank');
+            } else {
+                sendButton.style.display = 'none';
             }
         });
     </script>

@@ -113,7 +113,20 @@
     <button class="btn-primary" onclick="handleOrder()">Próximo</button>
   </div>
 
+  <script src="/public/script/api.js"></script>
   <script src="/public/script/script.js"></script>
+  <script>
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const currentPath = window.location.pathname.replace(/\/+$/, '');
+    navLinks.forEach((link) => {
+      const linkPath = link.getAttribute('href').replace(/\/+$/, '');
+      if (linkPath === currentPath) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  </script>
 </body>
 
 </html>

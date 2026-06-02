@@ -51,7 +51,7 @@ services:
   
 
   db:
-    image: postgres
+    image: postgres:15
     environment:
       POSTGRES_DB: ${DB}
       POSTGRES_USER: ${DB_USER}
