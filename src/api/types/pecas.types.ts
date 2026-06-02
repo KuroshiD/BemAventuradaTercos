@@ -9,6 +9,7 @@ export interface PecaItem {
   price: number;
   status: PecaStatus;
   color?: string;
+  shine: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -19,6 +20,7 @@ export interface CreatePecaRequest {
   price: number;
   status?: PecaStatus;
   color?: string;
+  shine?: boolean;
 }
 
 export interface UpdatePecaRequest {
@@ -27,4 +29,5 @@ export interface UpdatePecaRequest {
   price?: number;
   status?: PecaStatus;
   color?: string;
+  shine?: boolean;
 }

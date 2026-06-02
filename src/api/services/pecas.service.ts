@@ -25,6 +25,7 @@ export const createPeca = async (
     price: data.price,
     status: data.status ?? 'active',
     color: data.color,
+    shine: data.shine ?? false,
   });
 
   return pecaRepository().save(item);
@@ -47,6 +48,7 @@ export const updatePeca = async (
     price: data.price,
     status: data.status,
     color: data.color,
+    shine: data.shine,
   });
 
   return pecaRepository().save(existing);

@@ -1,8 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken } from '../services/auth.service';
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = process.env.JWT_SECRET ?? 'change_this_secret';
 
 interface AuthRequest extends Request {
   authToken?: string;
+  authUser?: string;
 }
 
 export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): void => {
@@ -14,11 +17,12 @@ export const authMiddleware = (req: AuthRequest, res: Response, next: NextFuncti
     return;
   }
 
-  if (!verifyToken(token)) {
-    res.status(401).json({ error: 'Token de autenticação inválido.' });
-    return;
+  try {
+    const payload = jwt.verify(token, JWT_SECRET) as { sub?: string };
+    req.authToken = token;
+    req.authUser = payload.sub;
+    next();
+  } catch (e) {
+    res.status(401).json({ error: 'Token de autenticação inválido ou expirado.' });
   }
-
-  req.authToken = token;
-  next();
 };

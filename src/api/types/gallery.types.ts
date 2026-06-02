@@ -11,6 +11,7 @@ export interface GalleryItem {
 }
 
 export interface CreateGalleryItemRequest {
+  id?: string;
   title: string;
   imageUrl: string;
   description?: string;

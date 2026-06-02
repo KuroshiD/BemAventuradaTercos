@@ -16,7 +16,7 @@ export const createGalleryItem = async (
   data: CreateGalleryItemRequest
 ): Promise<GalleryItem> => {
   const item = galleryRepository().create({
-    id: Math.random().toString(36).slice(2, 10),
+    id: data.id ?? Math.random().toString(36).slice(2, 10),
     title: data.title,
     imageUrl: data.imageUrl,
     description: data.description ?? '',

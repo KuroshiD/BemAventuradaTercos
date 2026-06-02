@@ -17,8 +17,20 @@ export const getGalleryItems = async (_req: Request, res: Response): Promise<voi
   res.json(items);
 };
 
-export const createGalleryItemHandler = async (req: Request, res: Response): Promise<void> => {
-  const { title, imageUrl, description, status } = req.body as CreateGalleryItemRequest;
+export const getPublicGalleryItems = async (_req: Request, res: Response): Promise<void> => {
+  const items = await listGalleryItems();
+  res.json(items.filter((item) => item.status === 'active'));
+};
+
+export const createGalleryItemHandler = async (req: Request & { file?: Express.Multer.File }, res: Response): Promise<void> => {
+  const { title, imageUrl: bodyImageUrl, description, status } = req.body as CreateGalleryItemRequest;
+  let imageUrl = bodyImageUrl;
+
+  if (req.file) {
+    const mimeType = req.file.mimetype || 'application/octet-stream';
+    const base64 = req.file.buffer.toString('base64');
+    imageUrl = `data:${mimeType};base64,${base64}`;
+  }
 
   if (!title || !imageUrl) {
     res.status(400).json({ error: 'Os campos title e imageUrl são obrigatórios.' });
@@ -34,9 +46,16 @@ export const createGalleryItemHandler = async (req: Request, res: Response): Pro
   res.status(201).json(item);
 };
 
-export const updateGalleryItemHandler = async (req: Request, res: Response): Promise<void> => {
+export const updateGalleryItemHandler = async (req: Request & { file?: Express.Multer.File }, res: Response): Promise<void> => {
   const { id } = req.params;
-  const { title, imageUrl, description, status } = req.body as UpdateGalleryItemRequest;
+  const { title, imageUrl: bodyImageUrl, description, status } = req.body as UpdateGalleryItemRequest;
+  let imageUrl = bodyImageUrl;
+
+  if (req.file) {
+    const mimeType = req.file.mimetype || 'application/octet-stream';
+    const base64 = req.file.buffer.toString('base64');
+    imageUrl = `data:${mimeType};base64,${base64}`;
+  }
 
   if (status !== undefined && !isValidStatus(status)) {
     res.status(400).json({ error: 'Status inválido. Use "active" ou "inactive".' });

@@ -14,7 +14,7 @@ export class GalleryItem {
   @Column()
   title!: string;
 
-  @Column({ name: 'image_url' })
+  @Column({ name: 'image_url', type: 'text' })
   imageUrl!: string;
 
   @Column({ default: '' })

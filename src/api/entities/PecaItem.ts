@@ -29,6 +29,9 @@ export class PecaItem {
   @Column({ nullable: true })
   color?: string;
 
+  @Column({ default: false })
+  shine!: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
 

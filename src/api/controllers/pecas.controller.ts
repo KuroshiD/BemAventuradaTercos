@@ -34,9 +34,21 @@ export const getPecasByCategory = async (req: Request, res: Response): Promise<v
   res.json(await listPecasByCategory(category));
 };
 
+export const getPublicPecasByCategory = async (req: Request, res: Response): Promise<void> => {
+  const category = req.params.categoria;
+
+  if (!isValidCategory(category)) {
+    res.status(400).json({ error: 'Categoria inválida.' });
+    return;
+  }
+
+  const items = await listPecasByCategory(category);
+  res.json(items.filter((item) => item.status === 'active'));
+};
+
 export const createPecaHandler = async (req: Request, res: Response): Promise<void> => {
   const category = req.params.categoria;
-  const { name, material, price, status, color } = req.body as CreatePecaRequest;
+  const { name, material, price, status, color, shine } = req.body as CreatePecaRequest;
 
   if (!isValidCategory(category)) {
     res.status(400).json({ error: 'Categoria inválida.' });
@@ -59,6 +71,7 @@ export const createPecaHandler = async (req: Request, res: Response): Promise<vo
     price: Number(price),
     status,
     color,
+    shine: shine === true,
   });
 
   res.status(201).json(item);
@@ -67,7 +80,7 @@ export const createPecaHandler = async (req: Request, res: Response): Promise<vo
 export const updatePecaHandler = async (req: Request, res: Response): Promise<void> => {
   const category = req.params.categoria;
   const { id } = req.params;
-  const { name, material, price, status, color } = req.body as UpdatePecaRequest;
+  const { name, material, price, status, color, shine } = req.body as UpdatePecaRequest;
 
   if (!isValidCategory(category)) {
     res.status(400).json({ error: 'Categoria inválida.' });
@@ -90,6 +103,7 @@ export const updatePecaHandler = async (req: Request, res: Response): Promise<vo
     price: price !== undefined ? Number(price) : undefined,
     status,
     color,
+    shine: shine !== undefined ? shine === true : undefined,
   });
 
   if (!item) {
