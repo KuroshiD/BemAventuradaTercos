@@ -256,6 +256,40 @@
 
     .modal-footer { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
 
+    @media (max-width: 700px) {
+      .modal-backdrop {
+        padding: 16px;
+        align-items: flex-start;
+        overflow-y: auto;
+      }
+
+      .modal {
+        padding: 24px;
+        max-width: 100%;
+        max-height: calc(100vh - 32px);
+        overflow-y: auto;
+      }
+
+      .modal-title {
+        font-size: 1.45rem;
+        margin-bottom: 20px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-footer {
+        flex-direction: column-reverse;
+        align-items: stretch;
+      }
+
+      .modal-footer .btn-primary,
+      .modal-footer .btn-ghost {
+        width: 100%;
+      }
+    }
+
     /* ── CONFIRM ── */
     .confirm-backdrop {
       position: fixed; inset: 0; z-index: 300;
