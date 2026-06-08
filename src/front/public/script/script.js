@@ -53,6 +53,7 @@ const normalizeItem = (item) => ({
     price: Number(item.price) || 0,
     color: item.color || '#c8bfb0',
     shine: Boolean(item.shine),
+    imageUrl: item.imageUrl || item.image_url || '',
 });
 
 const fetchCategoryItems = async (category) => {
@@ -93,6 +94,8 @@ const loadCatalog = async () => {
     updateRosary();
     updateTotal();
     updateSummary();
+    updateActivePiecePreview();
+    bindActivePieceLens();
 };
 
 loadCatalog();
@@ -176,6 +179,7 @@ const selectItem = (category, item) => {
     updateRosary();
     updateTotal();
     updateSummary();
+    updateActivePiecePreview();
 };
 
 
@@ -188,27 +192,124 @@ const updateTotal = () => {
 };
 
 
+const getActiveTabCategory = () => {
+    const activeTab = document.querySelector('.tab-btn.active');
+    return activeTab?.dataset.tab || 'micancas';
+};
+
+const selectActivePiece = () => {
+    const category = getActiveTabCategory();
+    return selected[category] || null;
+};
+
+const updateActivePiecePreview = () => {
+    const imageWrapper = document.getElementById('activePieceMedia');
+    const imageEl = document.getElementById('activePieceImage');
+    const placeholder = document.getElementById('activePiecePlaceholder');
+    const lens = document.getElementById('activePieceLens');
+    const nameEl = document.getElementById('activePieceName');
+    const priceEl = document.getElementById('activePiecePrice');
+
+    const activeItem = selectActivePiece();
+    const category = getActiveTabCategory();
+
+    if (!activeItem || !activeItem.imageUrl) {
+        imageEl.style.display = 'none';
+        imageEl.src = '';
+        imageEl.alt = '';
+        placeholder.style.display = 'grid';
+        nameEl.textContent = '';
+        priceEl.textContent = '';
+        lens.style.display = 'none';
+        return;
+    }
+
+    imageEl.src = activeItem.imageUrl;
+    imageEl.alt = activeItem.name;
+    imageEl.style.display = 'block';
+    placeholder.style.display = 'none';
+    nameEl.textContent = activeItem.name;
+    priceEl.textContent = `R$ ${activeItem.price.toFixed(2).replace('.', ',')}`;
+    lens.style.backgroundImage = `url('${activeItem.imageUrl}')`;
+    lens.style.display = 'block';
+};
+
 const updateSummary = () => {
     const box = document.getElementById('summaryItems');
     const entries = Object.entries(selected);
 
+    box.innerHTML = '';
+
     if (!entries.length) {
-        box.innerHTML = `<div class="summary-item" style="color:var(--muted);font-style:italic;">Nenhum item selecionado ainda.</div>`;
+        box.innerHTML = `<div class="summary-item summary-item-empty">Nenhum item selecionado ainda.</div>`;
         return;
     }
 
-    box.innerHTML = entries.map(([category, item]) => {
+    entries.forEach(([category, item]) => {
         const formattedPrice = item.price.toFixed(2).replace('.', ',');
-        const shineEmoji = getShineEmoji(item);
-        return `
-            <div class="summary-item">
-                <span>
-                    <span class="s-dot" style="background:${buildSwatchGradient(item)}"></span>
-                    ${item.name} ${shineEmoji}
-                </span>
-                <span class="s-price">R$ ${formattedPrice}</span>
-            </div>`;
-    }).join('');
+
+        const itemBlock = document.createElement('div');
+        itemBlock.className = 'summary-item';
+
+        if (item.imageUrl) {
+            const image = document.createElement('img');
+            image.src = item.imageUrl;
+            image.alt = item.name;
+            itemBlock.appendChild(image);
+        } else {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'summary-item-placeholder';
+            placeholder.textContent = 'Imagem não disponível';
+            itemBlock.appendChild(placeholder);
+        }
+
+        const title = document.createElement('div');
+        title.className = 'summary-item-title';
+        title.textContent = item.name;
+        itemBlock.appendChild(title);
+
+        const price = document.createElement('div');
+        price.className = 'summary-item-price';
+        price.textContent = `R$ ${formattedPrice}`;
+        itemBlock.appendChild(price);
+
+        box.appendChild(itemBlock);
+    });
+};
+
+const bindActivePieceLens = () => {
+    const imageEl = document.getElementById('activePieceImage');
+    const imageWrapper = document.getElementById('activePieceMedia');
+    const lens = document.getElementById('activePieceLens');
+    const lensSize = 150;
+    const scale = 2.8;
+
+    const moveLens = (event) => {
+        const rect = imageWrapper.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
+            lens.style.opacity = '0';
+            return;
+        }
+
+        const half = lensSize / 2;
+        const left = Math.min(Math.max(x - half, 0), rect.width - lensSize);
+        const top = Math.min(Math.max(y - half, 0), rect.height - lensSize);
+        lens.style.left = `${left}px`;
+        lens.style.top = `${top}px`;
+        lens.style.backgroundSize = `${rect.width * scale}px ${rect.height * scale}px`;
+        lens.style.backgroundPosition = `${-(x * scale - half)}px ${-(y * scale - half)}px`;
+        lens.style.opacity = '1';
+    };
+
+    const hideLens = () => {
+        lens.style.opacity = '0';
+    };
+
+    imageWrapper.addEventListener('mousemove', moveLens);
+    imageWrapper.addEventListener('mouseleave', hideLens);
 };
 
 
@@ -326,6 +427,7 @@ document.getElementById('tabBar').addEventListener('click', (event) => {
 
     btn.classList.add('active');
     document.getElementById(`tab-${tabName}`).style.display = 'block';
+    updateActivePiecePreview();
 });
 
 

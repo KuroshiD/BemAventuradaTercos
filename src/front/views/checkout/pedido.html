@@ -701,7 +701,7 @@
         </div>
 
         <button class="btn-order" id="btnOrder" onclick="handleOrder()">
-          Enviar Pedido
+          <span class="btn-order-label">Enviar Pedido</span>
           <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="22" y1="2" x2="11" y2="13" />
             <polygon points="22 2 15 22 11 13 2 9 22 2" />
@@ -785,6 +785,8 @@
       crucifixos: 'Crucifixo'
     };
 
+    const ORDER = ['micancas', 'passantes', 'entremeios', 'crucifixos'];
+
     /* ── RENDER ORDER ITEMS ────────────────────────────────── */
     const renderOrder = () => {
       const container = document.getElementById('orderItems');
@@ -861,13 +863,61 @@
       }
 
 
-      sessionStorage.setItem('bemAventurada_nome', nome);
-      sessionStorage.setItem('bemAventurada_telefone', telefone);
-      sessionStorage.setItem('bemAventurada_obs', document.getElementById('obs').value.trim());
-
-      window.location.href = '/checkout/finish';
+      sendOrderToWhatsApp(nome, telefone, document.getElementById('obs').value.trim());
     };
 
+    const buildWhatsAppMessage = (name, telefone, observacao) => {
+      const entries = ORDER.filter((cat) => selected[cat]).map((cat) => [cat, selected[cat]]);
+      const itemLines = entries.map(([cat, item]) => `• ${item.name} (${categoryLabel[cat] ?? cat}) — ${item.material} — R$ ${item.price.toFixed(2).replace('.', ',')}`);
+      const total = entries.reduce((sum, [, item]) => sum + item.price, 0);
+
+      return [
+        'Olá! 😊',
+        'Gostaria de fazer um pedido especial pela Bem Aventurada:',
+        '',
+        ...itemLines,
+        '',
+        `Valor total estimado: R$ ${total.toFixed(2).replace('.', ',')}`,
+        observacao ? `Observação: ${observacao}` : null,
+        '',
+        `Nome: ${name}`,
+        `WhatsApp: ${telefone}`,
+        '',
+        'Aguardo seu retorno para confirmar o pedido. Muito obrigada! 🙏'
+      ].filter(Boolean).join('\n');
+    };
+
+    const normalizePhone = (raw) => raw.replace(/\D/g, '');
+
+    const sendOrderToWhatsApp = async (name, telefone, observacao) => {
+      const btn = document.getElementById('btnOrder');
+      const btnLabel = btn.querySelector('.btn-order-label');
+      const originalLabel = btnLabel ? btnLabel.textContent : 'Enviar Pedido';
+      btn.disabled = true;
+      if (btnLabel) btnLabel.textContent = 'Aguarde...';
+
+      try {
+        const response = await fetch('/api/whatsapp-number');
+        if (!response.ok) throw new Error('Não foi possível obter o número do WhatsApp.');
+        const data = await response.json();
+        const whatsapp = normalizePhone(data.whatsapp || '');
+
+        if (!whatsapp) {
+          showAlert('Número do WhatsApp não está disponível no momento. Tente novamente mais tarde.');
+          return;
+        }
+
+        const message = buildWhatsAppMessage(name, telefone, observacao);
+        const encoded = encodeURIComponent(message);
+        sessionStorage.removeItem('bemAventurada_selected');
+        window.location.href = `https://wa.me/${whatsapp}?text=${encoded}`;
+      } catch (error) {
+        showAlert('Ocorreu um erro ao preparar o pedido. Verifique a conexão e tente novamente.');
+      } finally {
+        btn.disabled = false;
+        if (btnLabel) btnLabel.textContent = originalLabel;
+      }
+    };
 
     document.getElementById('telefone').addEventListener('input', (e) => {
       let v = e.target.value.replace(/\D/g, '');

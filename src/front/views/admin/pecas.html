@@ -221,12 +221,29 @@
     /* Color swatch preview */
     .color-preview-wrap { display: flex; align-items: center; gap: 12px; }
     .color-preview-wrap .form-input { flex: 1; }
+    .color-input { width: 44px; height: 44px; padding: 0; border-radius: 50%; border: 1.5px solid #e8e3db; background: #fff; cursor: pointer; }
     .color-preview-swatch {
       width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
       border: 2px solid rgba(0,0,0,.1);
       box-shadow: inset 0 -3px 8px rgba(0,0,0,.18), inset 0 2px 6px rgba(255,255,255,.30);
       transition: background .2s;
     }
+
+    /* Inline color picker panel positioned below the swatch */
+    .color-picker-panel {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      background: #fff;
+      border: 1px solid #e8e3db;
+      padding: 8px;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(26,37,87,.12);
+      z-index: 500;
+      display: none;
+      min-width: 160px;
+    }
+    .color-picker-panel input[type="color"] { width: 160px; height: 40px; border: none; padding: 0; background: transparent; cursor: pointer; }
 
     .toggle-group { display: flex; gap: 12px; flex-wrap: wrap; }
     .toggle-option { display: none; }
@@ -407,11 +424,21 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label class="form-label">Imagem</label>
+        <input type="file" class="form-input" id="fieldImgFile" accept="image/*" onchange="handleImageChange()" />
+        <div id="imagePreview" style="margin-top: 12px; text-align: center; display: none;">
+          <img id="previewImg" style="max-width: 100%; max-height: 200px; border-radius: 8px;" />
+        </div>
+      </div>
+
       <div class="form-group" id="colorGroup">
-        <label class="form-label">Cor (hex)</label>
-        <div class="color-preview-wrap">
-          <input type="text" class="form-input" id="fColor" placeholder="#8a6bb1" oninput="updateSwatch()" />
-          <div class="color-preview-swatch" id="colorSwatch" style="background:#e8e3db"></div>
+        <label class="form-label">Cor</label>
+        <div class="color-preview-wrap" style="position:relative;">
+          <div class="color-preview-swatch" id="colorSwatch" style="background:#e8e3db" onclick="openColorPicker()"></div>
+          <div id="colorPickerPanel" class="color-picker-panel" aria-hidden="true">
+            <input type="color" id="fColor" onchange="updateSwatch()" value="#e8e3db" />
+          </div>
         </div>
       </div>
 
@@ -473,6 +500,7 @@
   };
   let currentTab = 'micancas';
   let editingId = null;
+  let editingImage = '';
   let deletingId = null;
   let deletingTab = null;
 
@@ -491,6 +519,7 @@
     material: item.material || '',
     price: Number(item.price) || 0,
     color: item.color || '#e8e3db',
+    imageUrl: item.imageUrl || '',
     shine: item.shine || false,
     status: item.status || 'hidden',
   });
@@ -638,14 +667,17 @@
 
   const openAdd = (tab) => {
     editingId = null;
+    editingImage = '';
     currentTab = tab;
     setActiveTab(tab);
     document.getElementById('modalTitle').textContent = 'Nova Peça';
     document.getElementById('fName').value = '';
     document.getElementById('fMaterial').value = '';
     document.getElementById('fPrice').value = '';
-    document.getElementById('fColor').value = '';
+    document.getElementById('fColor').value = '#e8e3db';
     document.getElementById('colorSwatch').style.background = '#e8e3db';
+    document.getElementById('fieldImgFile').value = '';
+    document.getElementById('imagePreview').style.display = 'none';
     document.getElementById('shineYes').checked = true;
     document.getElementById('availYes').checked = true;
     document.getElementById('colorGroup').style.display = isColorType(tab) ? '' : 'none';
@@ -660,12 +692,20 @@
     if (!item) return;
 
     editingId = id;
+    editingImage = item.imageUrl || '';
     document.getElementById('modalTitle').textContent = 'Editar Peça';
     document.getElementById('fName').value = item.name;
     document.getElementById('fMaterial').value = item.material;
     document.getElementById('fPrice').value = item.price;
-    document.getElementById('fColor').value = item.color || '';
+    document.getElementById('fColor').value = item.color || '#e8e3db';
     document.getElementById('colorSwatch').style.background = item.color || '#e8e3db';
+    document.getElementById('fieldImgFile').value = '';
+    if (editingImage) {
+      document.getElementById('previewImg').src = editingImage;
+      document.getElementById('imagePreview').style.display = 'block';
+    } else {
+      document.getElementById('imagePreview').style.display = 'none';
+    }
     document.getElementById(item.shine ? 'shineYes' : 'shineNo').checked = true;
     document.getElementById(item.status === 'active' ? 'availYes' : 'availNo').checked = true;
     document.getElementById('colorGroup').style.display = isColorType(tab) ? '' : 'none';
@@ -688,6 +728,77 @@
     document.getElementById('colorSwatch').style.background = val || '#e8e3db';
   };
 
+  const handleImageChange = () => {
+    const fileInput = document.getElementById('fieldImgFile');
+    const file = fileInput?.files?.[0];
+    const previewDiv = document.getElementById('imagePreview');
+    const previewImg = document.getElementById('previewImg');
+
+    if (!file) {
+      if (!editingImage) {
+        previewDiv.style.display = 'none';
+      }
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      previewImg.src = reader.result;
+      previewDiv.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const openColorPicker = () => {
+    const panel = document.getElementById('colorPickerPanel');
+    const swatch = document.getElementById('colorSwatch');
+    if (!panel || !swatch) return;
+    const isOpen = panel.style.display === 'block';
+    if (isOpen) {
+      panel.style.display = 'none';
+      panel.setAttribute('aria-hidden', 'true');
+      return;
+    }
+    // show then measure to center under swatch
+    panel.style.display = 'block';
+    panel.setAttribute('aria-hidden', 'false');
+    // center horizontally below the swatch
+    const swRect = swatch.getBoundingClientRect();
+    const parentRect = swatch.parentElement.getBoundingClientRect();
+    const panelWidth = panel.offsetWidth || 160;
+    let left = (swRect.left - parentRect.left) + (swRect.width / 2) - (panelWidth / 2);
+    if (left < 0) left = 0;
+    panel.style.left = left + 'px';
+  };
+
+  // Close color panel when clicking outside
+  document.addEventListener('click', (e) => {
+    const panel = document.getElementById('colorPickerPanel');
+    const swatch = document.getElementById('colorSwatch');
+    if (!panel || !swatch) return;
+    if (panel.contains(e.target) || swatch.contains(e.target)) return;
+    panel.style.display = 'none';
+    panel.setAttribute('aria-hidden', 'true');
+  });
+
+  const buildPecaPayload = (name, material, price, color, shine, status, file) => {
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('material', material);
+    formData.append('price', String(price));
+    formData.append('color', color);
+    formData.append('shine', String(shine));
+    formData.append('status', status);
+
+    if (file) {
+      formData.append('image', file);
+    } else if (editingImage) {
+      formData.append('imageUrl', editingImage);
+    }
+
+    return formData;
+  };
+
   const saveItem = async () => {
     const name = document.getElementById('fName').value.trim();
     const material = document.getElementById('fMaterial').value.trim();
@@ -695,28 +806,23 @@
     const color = document.getElementById('fColor').value.trim() || '#c8bfb0';
     const shine = document.querySelector('input[name="shine"]:checked')?.value === 'true' ?? true;
     const status = document.querySelector('input[name="avail"]:checked').value;
+    const fileInput = document.getElementById('fieldImgFile');
+    const file = fileInput?.files?.[0];
 
     if (!name || !material) {
       document.getElementById('fName').focus();
       return;
     }
 
-    const body = {
-      name,
-      material,
-      price,
-      color,
-      shine,
-      status,
-    };
+    const payload = buildPecaPayload(name, material, price, color, shine, status, file);
 
     try {
       if (editingId) {
-        const updated = await authClient().put(`/adm/pecas/${currentTab}/${editingId}`, body);
+        const updated = await authClient().putForm(`/adm/pecas/${currentTab}/${editingId}`, payload);
         data[currentTab] = data[currentTab].map((item) => String(item.id) === String(editingId) ? normalizePeca(updated) : item);
         showToast('Peça atualizada!');
       } else {
-        const created = await authClient().post(`/adm/pecas/${currentTab}`, body);
+        const created = await authClient().postForm(`/adm/pecas/${currentTab}`, payload);
         data[currentTab].push(normalizePeca(created));
         showToast('Peça adicionada!');
       }
@@ -752,6 +858,27 @@
       handleApiError(error);
     }
   };
+
+  // Auto-fill name field and preview when image is selected (same behavior as galeria)
+  document.getElementById('fieldImgFile')?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const previewImg = document.getElementById('previewImg');
+        const previewDiv = document.getElementById('imagePreview');
+        previewImg.src = event.target.result;
+        previewDiv.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+
+      const nameField = document.getElementById('fName');
+      if (!nameField.value.trim()) {
+        const fileName = file.name.replace(/\.[^/.]+$/, '');
+        nameField.value = fileName;
+      }
+    }
+  });
 
   window.openAdd = openAdd;
   window.openEdit = openEdit;
