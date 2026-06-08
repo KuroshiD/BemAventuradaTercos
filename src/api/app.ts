@@ -6,6 +6,7 @@ import authRouter from './routes/auth.routes';
 import galleryRouter from './routes/gallery.routes';
 import pecasRouter from './routes/pecas.routes';
 import publicRouter from './routes/public.routes';
+import env from '../env';
 
 const app = express();
 
@@ -31,6 +32,9 @@ if (fs.existsSync(publicDir)) {
 }
 
 app.use('/api', publicRouter);
+app.get('/api/whatsapp-number', (_req, res) => {
+  res.json({ whatsapp: env.whatsapp_number });
+});
 app.use('/adm', authRouter);
 app.use('/adm', galleryRouter);
 app.use('/adm', pecasRouter);

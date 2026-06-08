@@ -46,9 +46,16 @@ export const getPublicPecasByCategory = async (req: Request, res: Response): Pro
   res.json(items.filter((item) => item.status === 'active'));
 };
 
-export const createPecaHandler = async (req: Request, res: Response): Promise<void> => {
+export const createPecaHandler = async (req: Request & { file?: Express.Multer.File }, res: Response): Promise<void> => {
   const category = req.params.categoria;
-  const { name, material, price, status, color, shine } = req.body as CreatePecaRequest;
+  const { name, material, price, status, color, imageUrl: bodyImageUrl, shine } = req.body as CreatePecaRequest;
+  let imageUrl = bodyImageUrl;
+
+  if (req.file) {
+    const mimeType = req.file.mimetype || 'application/octet-stream';
+    const base64 = req.file.buffer.toString('base64');
+    imageUrl = `data:${mimeType};base64,${base64}`;
+  }
 
   if (!isValidCategory(category)) {
     res.status(400).json({ error: 'Categoria inválida.' });
@@ -71,16 +78,24 @@ export const createPecaHandler = async (req: Request, res: Response): Promise<vo
     price: Number(price),
     status,
     color,
+    imageUrl,
     shine: shine === true,
   });
 
   res.status(201).json(item);
 };
 
-export const updatePecaHandler = async (req: Request, res: Response): Promise<void> => {
+export const updatePecaHandler = async (req: Request & { file?: Express.Multer.File }, res: Response): Promise<void> => {
   const category = req.params.categoria;
   const { id } = req.params;
-  const { name, material, price, status, color, shine } = req.body as UpdatePecaRequest;
+  const { name, material, price, status, color, imageUrl: bodyImageUrl, shine } = req.body as UpdatePecaRequest;
+  let imageUrl = bodyImageUrl;
+
+  if (req.file) {
+    const mimeType = req.file.mimetype || 'application/octet-stream';
+    const base64 = req.file.buffer.toString('base64');
+    imageUrl = `data:${mimeType};base64,${base64}`;
+  }
 
   if (!isValidCategory(category)) {
     res.status(400).json({ error: 'Categoria inválida.' });
@@ -103,6 +118,7 @@ export const updatePecaHandler = async (req: Request, res: Response): Promise<vo
     price: price !== undefined ? Number(price) : undefined,
     status,
     color,
+    imageUrl,
     shine: shine !== undefined ? shine === true : undefined,
   });
 

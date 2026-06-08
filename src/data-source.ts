@@ -4,6 +4,7 @@ import env from './env';
 import { GalleryItem } from './api/entities/GalleryItem';
 import { PecaItem } from './api/entities/PecaItem';
 import { CreateGalleryAndPecaTables1685620000000 } from './api/migrations/1685620000000-CreateGalleryAndPecaTables';
+import { AddImageToPecaItems1686000000001 } from './api/migrations/1686000000001-AddImageToPecaItems';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -13,7 +14,7 @@ export const AppDataSource = new DataSource({
   password: env.db_pass,
   database: env.db,
   entities: [GalleryItem, PecaItem],
-  migrations: [CreateGalleryAndPecaTables1685620000000],
+  migrations: [CreateGalleryAndPecaTables1685620000000, AddImageToPecaItems1686000000001],
   synchronize: false,
   logging: false,
 });

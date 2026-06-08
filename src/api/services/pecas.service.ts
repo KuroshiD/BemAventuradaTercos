@@ -25,6 +25,7 @@ export const createPeca = async (
     price: data.price,
     status: data.status ?? 'active',
     color: data.color,
+    imageUrl: data.imageUrl,
     shine: data.shine ?? false,
   });
 
@@ -48,6 +49,7 @@ export const updatePeca = async (
     price: data.price,
     status: data.status,
     color: data.color,
+    imageUrl: data.imageUrl,
     shine: data.shine,
   });
 

@@ -29,6 +29,9 @@ export class PecaItem {
   @Column({ nullable: true })
   color?: string;
 
+  @Column({ nullable: true, name: 'image_url', type: 'text' })
+  imageUrl?: string;
+
   @Column({ default: false })
   shine!: boolean;
 

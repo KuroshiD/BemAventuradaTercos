@@ -15,4 +15,5 @@ export default {
     db_pass: process.env.DB_PASS ?? "db_pass",
     db_host: process.env.DB_HOST ?? "localhost",
     db_port: parseIntWithFallback(process.env.DB_PORT, 5432),
+    whatsapp_number: process.env.WHATSAPP_NUMBER ?? '',
 }
